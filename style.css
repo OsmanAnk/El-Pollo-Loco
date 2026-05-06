@@ -1,0 +1,48 @@
+@font-face {
+    font-family: 'Zabars';
+    src: url('assets/fonts/Zabars.ttf') format('truetype');
+
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: url("assets/img/desert.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    overflow-y: hidden;
+    font-family: 'Zabars', sans-serif;
+}
+
+h1 {
+    font-size: 64px;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+canvas {
+    background-color: black;
+    display: block;
+}
+
+@media only screen and (max-width: 720px) {
+    canvas {
+        width: 100%;
+        ;
+    }
+
+    h1 {
+        display: none;
+    }
+}
+
+@media only screen and (max-height: 480px) {
+    canvas {
+        height: 100vh;
+    }
+}

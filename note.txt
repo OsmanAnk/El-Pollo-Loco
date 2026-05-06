@@ -1,0 +1,14 @@
+to-do
+sounds:
+hurt
+splash
+throw
+jump
+chicken
+bottle-pickup
+coin-pickup
+losing-sound
+winning-sound
+chicken-hurt
+chick-hurt
+

@@ -10,6 +10,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    coinCounter = 0;
+    bottleCounter = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -43,6 +45,26 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.healthbar.setPercentage(this.character.energy);
+            }
+        });
+
+        this.level.coins.forEach((coins) => {
+            if (this.character.isColliding(coins)) {
+                this.character.collect(coins);
+                this.coinbar.setPercentage(this.character.coin);
+                coins.x += 720 + Math.random() * 720;
+                coins.y = 10 + Math.random() * 350;
+                this.coinCounter++;
+            }
+        });
+
+        this.level.bottles.forEach((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                this.character.collect(bottle);
+                this.bottlebar.setPercentage(this.character.bottle);
+                bottle.x += 720 + Math.random() * 720;
+                bottle.y = 350;
+                this.bottleCounter++;
             }
         });
     }

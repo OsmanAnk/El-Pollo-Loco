@@ -1,5 +1,5 @@
 to-do
-sounds:
+-sounds:
 hurt
 splash
 throw
@@ -11,4 +11,15 @@ losing-sound
 winning-sound
 chicken-hurt
 chick-hurt
+schnarchen
+
+-Start Screen
+-Coins sammeln
+-Flaschen sammeln
+-Flaschen nur werfen, wenn sie vorhanden sind
+-collision (Flaschen mit Gegner)
+-Endgegner besiegen (mehrmals mit der Flasche treffen)
+-game-over Screen
+-Fullscreen
+-Erklärung Taste
 

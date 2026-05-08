@@ -22,4 +22,3 @@ schnarchen
 -game-over Screen
 -Fullscreen
 -Erklärung Taste
-

@@ -10,8 +10,6 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    coinCounter = 0;
-    bottleCounter = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -54,7 +52,6 @@ class World {
                 this.coinbar.setPercentage(this.character.coin);
                 coins.x += 720 + Math.random() * 720;
                 coins.y = 10 + Math.random() * 350;
-                this.coinCounter++;
             }
         });
 
@@ -64,7 +61,6 @@ class World {
                 this.bottlebar.setPercentage(this.character.bottle);
                 bottle.x += 720 + Math.random() * 720;
                 bottle.y = 350;
-                this.bottleCounter++;
             }
         });
     }

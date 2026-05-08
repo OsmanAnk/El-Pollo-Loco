@@ -40,6 +40,8 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/4_hurt/H-43.png",
     ]
     world;
+    coin = 0;
+    bottle = 0;
 
     constructor() {
         super().loadImage("assets/img/2_character_pepe/2_walk/W-21.png");

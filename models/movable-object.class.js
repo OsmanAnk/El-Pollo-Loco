@@ -57,8 +57,12 @@ class MovableObject extends DrawableObject {
         this.x -= this.speed;
     }
 
-    collect(coins) {
-        this.coin += coins;
+    collect(items) {
+        if (items instanceof Coin) {
+            this.coin += 20;
+        } else if (items instanceof Bottle) {
+            this.bottle += 20;
+        }
     }
 
     playAnimation(images) {

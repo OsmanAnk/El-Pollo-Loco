@@ -10,6 +10,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    lastBottleThrow = 0;
+    bottleThrowCooldown = 300; // ms Abstand zwischen zwei Flaschenwürfen
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
@@ -28,43 +30,64 @@ class World {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 200);
+        }, 1000 / 25);
     }
 
     checkThrowObjects() {
-        if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100)
-            this.throwableObjects.push(bottle)
+        let now = new Date().getTime();
+        if (this.keyboard.D && this.character.bottle >= 20 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
+            this.character.bottle -= 20;
+            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
+            this.throwableObjects.push(bottle);
+            this.bottlebar.setPercentage(this.character.bottle);
+            this.lastBottleThrow = now;
         }
     }
 
     checkCollisions() {
+        this.checkCollisionsEnemy();
+        this.checkCollisionsCoins();
+        this.checkCollisionsBottles();
+    }
+
+    checkCollisionsEnemy() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.hit();
                 this.healthbar.setPercentage(this.character.energy);
             }
         });
+    }
 
+    checkCollisionsCoins() {
         this.level.coins.forEach((coins) => {
             if (this.character.isColliding(coins)) {
                 this.character.collect(coins);
                 this.coinbar.setPercentage(this.character.coin);
                 coins.x += 720 + Math.random() * 720;
+                if (coins.x > 4000) {
+                    coins.x = 10000;
+                }
                 coins.y = 10 + Math.random() * 350;
             }
         });
+    }
 
+    checkCollisionsBottles() {
         this.level.bottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
                 this.character.collect(bottle);
                 this.bottlebar.setPercentage(this.character.bottle);
                 bottle.x += 720 + Math.random() * 720;
+                if (bottle.x > 4000) {
+                    bottle.x = 10000;
+                }
+
                 bottle.y = 350;
             }
         });
     }
-
+    
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 

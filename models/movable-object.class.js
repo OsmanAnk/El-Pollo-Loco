@@ -10,7 +10,7 @@ class MovableObject extends DrawableObject {
         setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY; //von der aktuellen Position y wird speedY abgezogen ->hier: 280 - 0
-                this.speedY -= this.acceleration; //von speedY word die Beschleunigung abgezogen ->hier: 0 - 1; somit wird oben in y 280 - (-1) addiert
+                this.speedY -= this.acceleration; //von speedY wird die Beschleunigung abgezogen ->hier: 0 - 1; somit wird oben in y 280 - (-1) addiert
             }
         }, 1000 / 30);
     }
@@ -60,8 +60,10 @@ class MovableObject extends DrawableObject {
     collect(items) {
         if (items instanceof Coin) {
             this.coin += 20;
+            console.log("coins collected: ", this.coin);
         } else if (items instanceof Bottle) {
             this.bottle += 20;
+            console.log("bottles collected: ", this.bottle);
         }
     }
 

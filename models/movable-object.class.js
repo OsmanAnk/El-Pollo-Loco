@@ -4,6 +4,7 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
+    chickenLife = 100;
     lastHit = 0;
 
     applyGravity() {
@@ -28,6 +29,10 @@ class MovableObject extends DrawableObject {
             this.y + this.height > mo.y &&
             this.x < mo.x &&
             this.y < mo.x + mo.height
+    }
+
+    chickenHit() {
+        return this.chickenLife = 0;
     }
 
     hit() {

@@ -37,7 +37,12 @@ class World {
         let now = new Date().getTime();
         if (this.keyboard.D && this.character.bottle >= 20 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
             this.character.bottle -= 20;
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
+            let bottle;
+            if (this.character.otherDirection) {
+                bottle = new ThrowableObject(this.character.x - 100, this.character.y + 100, this.character);
+            } else {
+                bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
+            }
             this.throwableObjects.push(bottle);
             this.bottlebar.setPercentage(this.character.bottle);
             this.lastBottleThrow = now;
@@ -87,7 +92,16 @@ class World {
             }
         });
     }
-    
+
+    checkCollisionsThrowableObjects() {
+        this.throwableObjects.forEach((bottle) => {
+            this.level.enemies.forEach((enemy))
+            if(bottle.isColliding(enemy)) {
+                enemy.chickenHit();
+            }
+        })
+    }
+
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 

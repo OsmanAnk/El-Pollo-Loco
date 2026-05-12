@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="style.css">
 
+    <script src="script.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/healthbar.class.js"></script>
     <script src="models/coinbar.class.js"></script>
@@ -28,9 +29,35 @@
     <script src="js/game.js"></script>
 </head>
 
-<body onload="init()">
-    <h1>El pollo loco</h1>
-    <canvas id="canvas" width="720" height="480">
+<body>
+    <div class="start-screen" id="start-screen">
+        <div class="start-screen-wrapper">
+            <h1>El pollo loco</h1>
+            <img src="assets/img/9_intro_outro_screens/start/startscreen_1.png" alt="startscreen"
+                class="start-screen-image">
+            <button class="start-button" onclick="startGame()">
+                Start
+            </button>
+            <div class="sound-fullscreen-btn">
+                <button class="fullscreen-button" onclick="toggleFullscreen()">
+                    Fullscreen
+                </button>
+                <img src="assets/icons/lautstarke.png" alt="sound-on" class="sound-button" id="sound-btn" onclick="toggleSound()">
+            </div>
+            <button class="imprint-button" onclick="showImprint()">
+                Imprint
+            </button>
+
+        </div>
+
+    </div>
+    <div class="game-container" id="game-container">
+        <h1>El pollo loco</h1>
+        <canvas id="canvas" width="720" height="480">
+    </div>
+
+    <div id="game-over-screen"></div>
+
     </canvas>
 </body>
 

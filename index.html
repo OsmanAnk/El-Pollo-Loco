@@ -38,11 +38,13 @@
             <button class="start-button" onclick="startGame()">
                 Start
             </button>
-            <div class="sound-fullscreen-btn">
-                <button class="fullscreen-button" onclick="toggleFullscreen()">
-                    Fullscreen
-                </button>
-                <img src="assets/icons/lautstarke.png" alt="sound-on" class="sound-button" id="sound-btn" onclick="toggleSound()">
+            <div class="action-btns">
+                <img src="assets/icons/fullscreen.png" alt="fullscreen" class="fullscreen-button" id="fullscreen-btn"
+                    onclick="toggleFullscreen()"></img>
+                <img src="assets/icons/lautstarke.png" alt="sound-on" class="sound-button" id="sound-btn"
+                    onclick="toggleSound(this)">
+                <img src="assets/icons/keyboard.png" alt="keyboard binds" class="keyboard-binds" id="keyboard-binds"
+                    onclick="showControls()"></img>
             </div>
             <button class="imprint-button" onclick="showImprint()">
                 Imprint
@@ -53,12 +55,27 @@
     </div>
     <div class="game-container" id="game-container">
         <h1>El pollo loco</h1>
-        <canvas id="canvas" width="720" height="480">
+        <canvas id="canvas" width="720" height="480"></canvas>
     </div>
-
     <div id="game-over-screen"></div>
-
-    </canvas>
+    <div id="keyboard-controls-screen" class="keyboard-controls-screen d_none" onclick="showControls()">
+        <div class="keyboard-controls-wrapper" onclick="event.stopPropagation()">
+            <h2>Keyboard Controls</h2>
+            <ul>
+                <li><strong>Move Left:</strong> Left Arrow</li>
+                <li><strong>Move Right:</strong> Right Arrow</li>
+                <li><strong>Jump:</strong> Up Arrow</li>
+                <li><strong>Throw Bottle:</strong> Spacebar</li>
+            </ul>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    <div id="imprint-screen" class="imprint-screen d_none" onclick="hideImprint()">
+        <div class="imprint-wrapper" onclick="event.stopPropagation()">
+            <h2>Imprint</h2>
+            <p>Game developed by Osman</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
 </body>
 
 </html>

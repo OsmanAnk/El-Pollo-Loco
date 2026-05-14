@@ -4,6 +4,10 @@
 
 }
 
+.d_none {
+    display: none !important;
+}
+
 body {
     margin: 0;
     display: flex;
@@ -84,7 +88,7 @@ h1 {
     border-radius: 5px;
 }
 
-.sound-fullscreen-btn {
+.action-btns {
     position: absolute;
     top: 20px;
     left: 20px;
@@ -92,15 +96,17 @@ h1 {
     gap: 16px;
 }
 
-.fullscreen-button,
-.sound-button {
-    font-family: 'Zabars', sans-serif;
-    font-size: 32px;
-    border: none;
-    background: none;
-    border-radius: 5px;
+.action-btns img {
+    width: 32px;
+    height: 32px;
+}
+
+.action-btns img:hover {
+    filter: brightness(0.8);
     cursor: pointer;
+    background: none;
     transform: scale(1.1);
+    transition: .2s;
 }
 
 .start-button {
@@ -132,6 +138,88 @@ h1 {
 .game-container {
     position: relative;
 }
+
+.keyboard-controls-screen {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.keyboard-controls-wrapper {
+    width: 320px;
+    min-height: 320px;
+
+    background: beige;
+    border-radius: 12px;
+    padding: 32px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+}
+
+.keyboard-controls-wrapper ul {
+    padding-left: 20px;
+    margin-top: 24px;
+    letter-spacing: 0.5px;
+}
+
+.keyboard-controls-wrapper li {
+    margin-bottom: 16px;
+    font-size: 24px;
+}
+
+.close-btn {
+    margin-top: auto;
+    align-self: center;
+    padding: 12px 32px;
+    font-family: 'Zabars', sans-serif;
+    font-size: 28px;
+    border: none;
+    border-radius: 8px;
+    background-color: rgb(245, 245, 219);
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    transform: scale(1.1);
+}
+
+.imprint-screen {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.imprint-wrapper {
+    width: 320px;
+    min-height: 320px;
+
+    background: beige;
+    border-radius: 12px;
+    padding: 32px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+}
+
 
 .game-container h1 {
     position: absolute;

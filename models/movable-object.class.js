@@ -4,7 +4,7 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2.5;
     energy = 100;
-    chickenLife = 100;
+    chickenLife = 1;
     lastHit = 0;
 
     applyGravity() {
@@ -28,11 +28,15 @@ class MovableObject extends DrawableObject {
         return this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
             this.x < mo.x &&
-            this.y < mo.x + mo.height
+            this.y < mo.y + mo.height
     }
 
     chickenHit() {
-        return this.chickenLife = 0;
+        this.chickenLife = 0;
+    }
+
+    chickenDead() {
+        return this.chickenLife == 0;
     }
 
     hit() {
@@ -73,8 +77,10 @@ class MovableObject extends DrawableObject {
     }
 
     playAnimation(images) {
+
         let i = this.currentImage % images.length;
         let path = images[i]
+        
         this.img = this.imageCache[path];
         this.currentImage++;
     }

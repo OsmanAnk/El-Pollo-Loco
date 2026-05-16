@@ -29,13 +29,14 @@ class World {
     run() {
         setInterval(() => {
             this.checkCollisions();
+            this.checkCollisionsThrowableObjects();
             this.checkThrowObjects();
         }, 1000 / 25);
     }
 
     checkThrowObjects() {
         let now = new Date().getTime();
-        if (this.keyboard.D && this.character.bottle >= 20 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
+        if (this.keyboard.SPACE && this.character.bottle >= 20 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
             this.character.bottle -= 20;
             let bottle;
             if (this.character.otherDirection) {
@@ -95,12 +96,14 @@ class World {
 
     checkCollisionsThrowableObjects() {
         this.throwableObjects.forEach((bottle) => {
-            this.level.enemies.forEach((enemy))
-            if(bottle.isColliding(enemy)) {
-                enemy.chickenHit();
-            }
-        })
+            this.level.enemies.forEach((enemy) => {
+                if (bottle.isColliding(enemy)) {
+                    enemy.chickenLife = 0;
+                }
+            });
+        });
     }
+
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

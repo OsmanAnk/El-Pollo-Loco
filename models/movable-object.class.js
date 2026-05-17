@@ -52,6 +52,10 @@ class MovableObject extends DrawableObject {
         return this.energy == 0;
     }
 
+    removeFromWorld() {
+        this.world.level.enemies = this.world.level.enemies.filter((enemy) => enemy !== this);
+    }
+
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Differenz in ms
         timepassed = timepassed / 1000; //Differenz in s
@@ -68,10 +72,10 @@ class MovableObject extends DrawableObject {
 
     collect(items) {
         if (items instanceof Coin) {
-            this.coin += 20;
+            this.coin += 1;
             console.log("coins collected: ", this.coin);
         } else if (items instanceof Bottle) {
-            this.bottle += 20;
+            this.bottle += 1;
             console.log("bottles collected: ", this.bottle);
         }
     }
@@ -80,7 +84,7 @@ class MovableObject extends DrawableObject {
 
         let i = this.currentImage % images.length;
         let path = images[i]
-        
+
         this.img = this.imageCache[path];
         this.currentImage++;
     }

@@ -24,6 +24,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.level.enemies.forEach(enemy => enemy.world = this);
     }
 
     run() {
@@ -70,11 +71,11 @@ class World {
             if (this.character.isColliding(coins)) {
                 this.character.collect(coins);
                 this.coinbar.setPercentage(this.character.coin);
-                coins.x += 720 + Math.random() * 720;
+                // coins.x += 720 + Math.random() * 720;
                 if (coins.x > 4000) {
                     coins.x = 10000;
                 }
-                coins.y = 10 + Math.random() * 350;
+                coins.y = 10000;
             }
         });
     }
@@ -84,12 +85,11 @@ class World {
             if (this.character.isColliding(bottle)) {
                 this.character.collect(bottle);
                 this.bottlebar.setPercentage(this.character.bottle);
-                bottle.x += 720 + Math.random() * 720;
+                // bottle.x += 720 + Math.random() * 720;
                 if (bottle.x > 4000) {
                     bottle.x = 10000;
                 }
-
-                bottle.y = 350;
+                bottle.y = 10000;
             }
         });
     }

@@ -70,8 +70,9 @@ class World {
         this.level.coins.forEach((coins) => {
             if (this.character.isColliding(coins)) {
                 this.character.collect(coins);
-                this.coinbar.setPercentage(this.character.coin);
-                // coins.x += 720 + Math.random() * 720;
+                let totalCoins = this.level.coins.length || 1;
+                let coinPercent = Math.round((this.character.coin / totalCoins) * 100);
+                this.coinbar.setPercentage(coinPercent);
                 if (coins.x > 4000) {
                     coins.x = 10000;
                 }
@@ -84,7 +85,9 @@ class World {
         this.level.bottles.forEach((bottle) => {
             if (this.character.isColliding(bottle)) {
                 this.character.collect(bottle);
-                this.bottlebar.setPercentage(this.character.bottle);
+                let totalBottles = this.level.bottles.length || 1;
+                let bottlePercent = Math.round((this.character.bottle / totalBottles) * 100);
+                this.bottlebar.setPercentage(bottlePercent);
                 // bottle.x += 720 + Math.random() * 720;
                 if (bottle.x > 4000) {
                     bottle.x = 10000;

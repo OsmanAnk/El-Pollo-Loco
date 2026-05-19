@@ -25,10 +25,12 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
+        return (
+            this.x + this.width > mo.x &&
             this.y + this.height > mo.y &&
-            this.x < mo.x &&
+            this.x < mo.x + mo.width &&
             this.y < mo.y + mo.height
+        );
     }
 
     chickenHit() {
@@ -59,7 +61,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Differenz in ms
         timepassed = timepassed / 1000; //Differenz in s
-        return timepassed < 1;
+        return timepassed < 0.25;
     }
 
     moveRight() {
@@ -73,10 +75,10 @@ class MovableObject extends DrawableObject {
     collect(items) {
         if (items instanceof Coin) {
             this.coin += 1;
-            console.log("coins collected: ", this.coin);
+            // console.log("coins collected: ", this.coin);
         } else if (items instanceof Bottle) {
             this.bottle += 1;
-            console.log("bottles collected: ", this.bottle);
+            // console.log("bottles collected: ", this.bottle);
         }
     }
 

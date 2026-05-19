@@ -4,6 +4,12 @@ function startGame() {
     init();
 }
 
+function restartGame() {
+    const gameOverScreen = document.getElementById("game-over-screen");
+    gameOverScreen.classList.add("d_none");
+    init();
+}
+
 function eventBubbling(event) {
     event.stopPropagation();
 }

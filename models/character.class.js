@@ -75,16 +75,20 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT)
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+                this.world.gameover();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING)
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.IMAGES_WALKING)
             }
-
-        }, 50);
+        }, 1000 / 20);
     }
 
     jump() {
         this.speedY = 30;
+    }
+
+    bounce() {
+        this.speedY = 20;
     }
 }

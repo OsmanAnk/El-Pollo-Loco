@@ -17,8 +17,8 @@ class World {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard
-        this.draw();
         this.setWorld();
+        this.draw();
         this.run();
     }
 
@@ -55,6 +55,7 @@ class World {
         this.checkCollisionsEnemy();
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
+        this.checkCollisionsAboveEnemies();
     }
 
     checkCollisionsEnemy() {
@@ -93,6 +94,19 @@ class World {
                     bottle.x = 10000;
                 }
                 bottle.y = 10000;
+            }
+        });
+    }
+
+    checkCollisionsAboveEnemies() {
+        this.level.enemies.forEach((enemy) => {
+            let isAboveEnemy = this.character.y + this.character.height - 20 < enemy.y; //charakter ist über dem Gegner, mit einem kleinen Puffer von 20 Pixeln
+            if (this.character.isColliding(enemy) && this.character.speedY < 0 && isAboveEnemy) { //charakter springt auf den Gegner
+                enemy.chickenLife = 0;  // Gegner wird besiegt
+                console.log("trifft gegner");
+                this.character.y = enemy.y - this.character.height; // Charakter landet auf dem Gegner
+                console.log("charakter y position: ", this.character.y);
+                this.character.bounce(); // Charakter springt zurück hoch
             }
         });
     }
@@ -163,5 +177,20 @@ class World {
         this.ctx.restore();
         mo.x = mo.x * -1;
     }
-}
 
+    gameover() {
+        if (this.gameOverTriggered) return;
+        this.gameOverTriggered = true;
+
+        let gameOverScreen = document.getElementById("game-over-screen");
+        gameOverScreen.innerHTML =
+            `<div class="game-over-wrapper">
+                <img src="assets/img/You won, you lost/You lost.png" alt="game over screen"
+                    class="game-over-image">
+                <button class="restart-button" onclick="restartGame()">
+                    Restart
+                </button>
+            </div>`;
+        gameOverScreen.classList.remove("d_none");
+    }
+}

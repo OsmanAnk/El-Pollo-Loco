@@ -1,13 +1,26 @@
+let intervalIDs = [];
+
 function startGame() {
     const startScreen = document.getElementById("start-screen");
     startScreen.style.display = "none";
+    initLevel1();
     init();
 }
 
 function restartGame() {
     const gameOverScreen = document.getElementById("game-over-screen");
     gameOverScreen.classList.add("d_none");
+    initLevel1();
     init();
+}
+
+function setStoppableInterval(fn, time) {
+    let intervalID = setInterval(fn, time);
+    intervalIDs.push(intervalID);
+}
+
+function stopGame() {
+    intervalIDs.forEach(clearInterval);
 }
 
 function eventBubbling(event) {

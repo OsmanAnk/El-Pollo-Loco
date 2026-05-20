@@ -15,7 +15,7 @@ class BackgroundObject extends MovableObject {
 
 
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.world.keyboard.RIGHT) {
                 this.otherDirection = false;
                 this.x += this.speed;

@@ -8,7 +8,7 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
 
     applyGravity() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY; //von der aktuellen Position y wird speedY abgezogen ->hier: 280 - 0
                 this.speedY -= this.acceleration; //von speedY wird die Beschleunigung abgezogen ->hier: 0 - 1; somit wird oben in y 280 - (-1) addiert

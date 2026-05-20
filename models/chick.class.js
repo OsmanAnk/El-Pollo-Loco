@@ -22,7 +22,7 @@ class Chick extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             if (!this.chickenDead()) {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_WALKING);

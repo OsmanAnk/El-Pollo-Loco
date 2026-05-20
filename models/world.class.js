@@ -28,7 +28,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        setStoppableInterval(() => {
             this.checkCollisions();
             this.checkCollisionsThrowableObjects();
             this.checkThrowObjects();
@@ -181,6 +181,7 @@ class World {
     gameover() {
         if (this.gameOverTriggered) return;
         this.gameOverTriggered = true;
+        stopGame();
 
         let gameOverScreen = document.getElementById("game-over-screen");
         gameOverScreen.innerHTML =

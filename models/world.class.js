@@ -32,7 +32,7 @@ class World {
             this.checkCollisions();
             this.checkCollisionsThrowableObjects();
             this.checkThrowObjects();
-        }, 1000 / 25);
+        }, 1000 / 1000);
     }
 
     checkThrowObjects() {
@@ -52,15 +52,20 @@ class World {
     }
 
     checkCollisions() {
+        // Prüfe zuerst, ob der Charakter von oben auf einen Gegner springt
+        // damit Stomp-Erkennung Priorität vor normalen Kollisionen hat.
+        this.checkCollisionsAboveEnemies();
         this.checkCollisionsEnemy();
         this.checkCollisionsCoins();
         this.checkCollisionsBottles();
-        this.checkCollisionsAboveEnemies();
     }
 
     checkCollisionsEnemy() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.isHurt()) {
+
+            let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y; //charakter ist über dem Gegner, mit einem kleinen Puffer von 30 Pixeln
+
+            if (this.character.isColliding(enemy) && !this.character.isHurt() && !isAboveEnemy) { //charakter kollidiert mit dem Gegner, ist aber nicht im Stomp-Modus
                 this.character.hit();
                 this.healthbar.setPercentage(this.character.energy);
             }
@@ -100,12 +105,9 @@ class World {
 
     checkCollisionsAboveEnemies() {
         this.level.enemies.forEach((enemy) => {
-            let isAboveEnemy = this.character.y + this.character.height - 20 < enemy.y; //charakter ist über dem Gegner, mit einem kleinen Puffer von 20 Pixeln
+            let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y; //charakter ist über dem Gegner, mit einem kleinen Puffer von 30 Pixeln
             if (this.character.isColliding(enemy) && this.character.speedY < 0 && isAboveEnemy) { //charakter springt auf den Gegner
                 enemy.chickenLife = 0;  // Gegner wird besiegt
-                console.log("trifft gegner");
-                this.character.y = enemy.y - this.character.height; // Charakter landet auf dem Gegner
-                console.log("charakter y position: ", this.character.y);
                 this.character.bounce(); // Charakter springt zurück hoch
             }
         });

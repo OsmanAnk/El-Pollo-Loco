@@ -31,6 +31,7 @@ body {
     height: 100vh;
     z-index: 3000;
     display: flex;
+    /* display: none; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -145,6 +146,26 @@ p {
 
 .game-container {
     position: relative;
+    background-color: transparent;
+}
+
+.game-container:fullscreen {
+    width: 100vw;
+    height: 100vh;
+}
+
+.game-container:fullscreen canvas {
+    position: relative;
+    left: auto;
+    top: auto;
+    display: block;
+    width: min(100vw, calc(100vh * 720 / 480));
+    height: min(100vh, calc(100vw * 480 / 720));
+    margin: auto;
+}
+
+.game-container:fullscreen h1 {
+    display: none;
 }
 
 .keyboard-controls-screen {
@@ -236,6 +257,7 @@ p {
     height: 100vh;
     z-index: 2500;
     display: flex;
+    /* display: none; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -290,7 +312,6 @@ canvas {
 @media only screen and (max-width: 720px) {
     canvas {
         width: 100%;
-        ;
     }
 
     h1 {
@@ -302,4 +323,18 @@ canvas {
     canvas {
         height: 100vh;
     }
+}
+
+.testFullscreen {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    aspect-ratio: 720 / 480;
+}
+
+.testFullscreen:fullscreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black
 }

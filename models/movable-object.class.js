@@ -2,10 +2,12 @@ class MovableObject extends DrawableObject {
     speed = 0.15;
     otherDirection = false;
     speedY = 0;
+    prevY = 0;
     acceleration = 2.5;
     energy = 100;
     chickenLife = 1;
     lastHit = 0;
+
 
     applyGravity() {
         setStoppableInterval(() => {
@@ -15,6 +17,7 @@ class MovableObject extends DrawableObject {
             }
         }, 1000 / 30);
     }
+
 
     isAboveGround() {
         if (this instanceof ThrowableObject) { //throwable fallen komplett runter

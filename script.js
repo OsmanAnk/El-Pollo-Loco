@@ -38,21 +38,33 @@ function toggleSound() {
 }
 
 function toggleFullscreen() {
-    const canvas = document.getElementById("canvas");
+    // const fullscreen = document.getElementById("game-container");
+    const fullscreen = document.getElementById("testFullscreen");
     if (!document.fullscreenElement) {
-        canvas.innerWidth = window.innerWidth;
-        canvas.innerHeight = window.innerHeight;
-    } else {
-        document.exitFullscreen();
-        resizeCanvas(canvas);
+        enterFullscreen(fullscreen);
+    }
+    else {
+        exitFullscreen();
     }
 }
 
-function resizeCanvas(canvas) {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function enterFullscreen(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    }
+}
 
-    World.draw();
+function exitFullscreen() {
+    console.log('exit');
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    }
 }
 
 function showControls() {

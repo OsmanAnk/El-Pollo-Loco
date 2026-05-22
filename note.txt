@@ -13,12 +13,17 @@ chicken-hurt
 chick-hurt
 schnarchen
 
--Start Screen
--Coins sammeln
--Flaschen sammeln
--Flaschen nur werfen, wenn sie vorhanden sind
--collision (Flaschen mit Gegner)
+-Start Screen -> Done
+-Coins sammeln -> Done
+-Flaschen sammeln -> Done
+-Flaschen nur werfen, wenn sie vorhanden sind -> Done
+-collision (Flaschen mit Gegner) -> Done
+-collision (Charakter mit Gegner) -> Schaden, obwohl auf den Gegnger gesprungen wird
 -Endgegner besiegen (mehrmals mit der Flasche treffen)
--game-over Screen
--Fullscreen
--Erklärung Taste
+-game-over Screen -> Done
+-Fullscreen -> fast
+-Erklärung Taste -> neue Seite erstellen
+
+
+-Ideen:
+Hauptmenü einfügen mit allen nötigen Buttons

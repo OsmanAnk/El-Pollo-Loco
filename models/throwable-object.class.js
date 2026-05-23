@@ -39,5 +39,15 @@ class ThrowableObject extends MovableObject {
         setStoppableInterval(() => {
             this.x += this.speedX;
         }, 25);
+        setStoppableInterval(() => {
+            if (this.speedY < 0) {
+                this.playAnimation(this.IMAGE_THROW);
+            }
+            if (this.y > 318) {
+                this.playAnimation(this.IMAGE_SPLASH);
+                this.speedX = 0;
+                this.speedY = 0;
+            }
+        }, 100);
     }
 }

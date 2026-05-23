@@ -37,8 +37,9 @@ class World {
 
     checkThrowObjects() {
         let now = new Date().getTime();
-        if (this.keyboard.SPACE && this.character.bottle >= 20 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
-            this.character.bottle -= 20;
+        if (this.keyboard.SPACE && this.character.bottle >= 1 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
+            console.log("throw");
+            this.character.bottle -= 1; //vorher 20
             let bottle;
             if (this.character.otherDirection) {
                 bottle = new ThrowableObject(this.character.x - 100, this.character.y + 100, this.character);
@@ -52,8 +53,6 @@ class World {
     }
 
     checkCollisions() {
-        // Prüfe zuerst, ob der Charakter von oben auf einen Gegner springt
-        // damit Stomp-Erkennung Priorität vor normalen Kollisionen hat.
         this.checkCollisionsAboveEnemies();
         this.checkCollisionsEnemy();
         this.checkCollisionsCoins();
@@ -94,7 +93,6 @@ class World {
                 let totalBottles = this.level.bottles.length || 1;
                 let bottlePercent = Math.round((this.character.bottle / totalBottles) * 100);
                 this.bottlebar.setPercentage(bottlePercent);
-                // bottle.x += 720 + Math.random() * 720;
                 if (bottle.x > 4000) {
                     bottle.x = 10000;
                 }
@@ -118,6 +116,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (bottle.isColliding(enemy)) {
                     enemy.chickenLife = 0;
+                    enemy.isHurt = true;
                 }
             });
         });

@@ -23,7 +23,7 @@ schnarchen
 -game-over Screen -> Done
 -Fullscreen -> fast
 -Erklärung Taste -> neue Seite erstellen
-
+-SPLASH ANPASSEN!
 
 -Ideen:
 Hauptmenü einfügen mit allen nötigen Buttons

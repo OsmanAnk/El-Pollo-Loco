@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     chickenLife = 1;
+    endbossLife = 1; //TEST
     lastHit = 0;
 
 
@@ -22,7 +23,7 @@ class MovableObject extends DrawableObject {
     isAboveGround() {
         if (this instanceof ThrowableObject) { //throwable fallen komplett runter
             return true;
-        } {
+        } else {
             return this.y < 150; //alle anderen hören bei 150 auf
         }
     }
@@ -34,10 +35,6 @@ class MovableObject extends DrawableObject {
             this.x < mo.x + mo.width &&
             this.y < mo.y + mo.height
         );
-    }
-
-    chickenHit() {
-        this.chickenLife = 0;
     }
 
     chickenDead() {
@@ -84,6 +81,8 @@ class MovableObject extends DrawableObject {
             // console.log("bottles collected: ", this.bottle);
         }
     }
+
+
 
     playAnimation(images) {
 

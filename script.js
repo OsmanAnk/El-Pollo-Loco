@@ -8,7 +8,7 @@ function startGame() {
 }
 
 function restartGame() {
-    const gameOverScreen = document.getElementById("game-over-screen");
+    const gameOverScreen = document.getElementById("end-screen");
     gameOverScreen.classList.add("d_none");
     initLevel1();
     init();

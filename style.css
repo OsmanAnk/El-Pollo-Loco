@@ -178,7 +178,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 3000;
 }
 
 .keyboard-controls-wrapper {
@@ -232,7 +232,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 3000;
 }
 
 .imprint-wrapper {
@@ -249,7 +249,7 @@ p {
     box-sizing: border-box;
 }
 
-.game-over-screen {
+.end-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -264,7 +264,7 @@ p {
     background-color: rgba(0, 0, 0, 0.75);
 }
 
-.game-over-wrapper {
+.end-screen-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -276,7 +276,7 @@ p {
     max-width: 90%;
 }
 
-.game-over-wrapper img {
+.end-screen-wrapper img {
     width: 100%;
     height: auto;
 }

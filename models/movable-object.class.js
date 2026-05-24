@@ -6,7 +6,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2.5;
     energy = 100;
     chickenLife = 1;
-    endbossLife = 1; //TEST
+    endbossLife = 100; //TEST
     lastHit = 0;
 
 
@@ -56,6 +56,7 @@ class MovableObject extends DrawableObject {
 
     removeFromWorld() {
         this.world.level.enemies = this.world.level.enemies.filter((enemy) => enemy !== this);
+        this.world.throwableObjects = this.world.throwableObjects.filter((obj) => obj !== this);
     }
 
     isHurt() {
@@ -81,8 +82,6 @@ class MovableObject extends DrawableObject {
             // console.log("bottles collected: ", this.bottle);
         }
     }
-
-
 
     playAnimation(images) {
 

@@ -67,6 +67,9 @@ class Endboss extends MovableObject {
                     this.isAlerted = true;
                     this.currentImage = 0;
                 }
+            }
+            else if (this.isAttacking) {
+                this.playAnimation(this.IMAGES_ATTACK);
             } else if (this.isHurt) {
                 this.playAnimation(this.IMAGES_HURT);
                 setTimeout(() => {
@@ -74,6 +77,7 @@ class Endboss extends MovableObject {
                 }, 500);
             } else if (this.endbossLife <= 0) {
                 this.playAnimation(this.IMAGES_DEAD);
+                this.world.youWin();
             } else {
                 this.moveLeft();
                 this.playAnimation(this.IMAGES_WALKING);

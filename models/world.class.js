@@ -46,6 +46,7 @@ class World {
             } else {
                 bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
             }
+            bottle.world = this;
             this.throwableObjects.push(bottle);
             this.bottlebar.setPercentage(this.character.bottle);
             this.lastBottleThrow = now;
@@ -62,11 +63,16 @@ class World {
     checkCollisionsEnemy() {
         this.level.enemies.forEach((enemy) => {
 
-            let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y; //charakter ist über dem Gegner, mit einem kleinen Puffer von 30 Pixeln
+            let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y; //charakter ist über dem Gegner, mit Puffer von 30 Pixeln
 
-            if (this.character.isColliding(enemy) && !this.character.isHurt() && !isAboveEnemy) { //charakter kollidiert mit dem Gegner, ist aber nicht im Stomp-Modus
+            if (this.character.isColliding(enemy) && !this.character.isHurt() && !isAboveEnemy) { //charakter kollidiert mit dem Gegner
                 this.character.hit();
                 this.healthbar.setPercentage(this.character.energy);
+
+                enemy.isAttacking = true; // Endboss greift an, wenn er getroffen wird
+                setTimeout(() => {
+                    enemy.isAttacking = false;
+                }, 1000);
             }
         });
     }
@@ -114,9 +120,12 @@ class World {
     checkCollisionsThrowableObjects() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
-                if (bottle.isColliding(enemy)) {
+                if (bottle.isColliding(enemy) && !bottle.isSplashed) {
                     enemy.chickenLife = 0;
+                    enemy.endbossLife -= 20;
                     enemy.isHurt = true;
+                    bottle.splash();
+                    console.log("Endboss life: ", enemy.endbossLife);
                 }
             });
         });
@@ -184,15 +193,32 @@ class World {
         this.gameOverTriggered = true;
         stopGame();
 
-        let gameOverScreen = document.getElementById("game-over-screen");
+        let gameOverScreen = document.getElementById("end-screen");
         gameOverScreen.innerHTML =
-            `<div class="game-over-wrapper">
+            `<div class="end-screen-wrapper">
                 <img src="assets/img/You won, you lost/You lost.png" alt="game over screen"
-                    class="game-over-image">
+                    class="end-screen-image">
                 <button class="restart-button" onclick="restartGame()">
                     Restart
                 </button>
             </div>`;
         gameOverScreen.classList.remove("d_none");
+    }
+
+    youWin() {
+        if (this.youWinTriggered) return;
+        this.youWinTriggered = true;
+        stopGame();
+
+        let youWinScreen = document.getElementById("end-screen");
+        youWinScreen.innerHTML =
+            `<div class="end-screen-wrapper">
+                <img src="assets/img/You won, you lost/You won A.png" alt="you win screen"
+                    class="end-screen-image">
+                <button class="restart-button" onclick="restartGame()">
+                    Restart
+                </button>
+            </div>`;
+        youWinScreen.classList.remove("d_none");
     }
 }

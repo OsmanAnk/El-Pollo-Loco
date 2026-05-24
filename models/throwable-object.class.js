@@ -15,6 +15,8 @@ class ThrowableObject extends MovableObject {
         "assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
     ]
 
+    isSplashed = false;
+
     constructor(x, y, character) {
         super();
         this.loadImage("assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
@@ -43,11 +45,22 @@ class ThrowableObject extends MovableObject {
             if (this.speedY < 0) {
                 this.playAnimation(this.IMAGE_THROW);
             }
-            if (this.y > 318) {
-                this.playAnimation(this.IMAGE_SPLASH);
-                this.speedX = 0;
-                this.speedY = 0;
+            if (this.y >= 320) {
+                this.splash();
+                setTimeout(() => {
+                    this.removeFromWorld();
+                }, 500);
+
             }
         }, 100);
+    }
+
+    splash() {
+        if (this.isSplashed) return;
+
+        this.isSplashed = true;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.playAnimation(this.IMAGE_SPLASH);
     }
 }

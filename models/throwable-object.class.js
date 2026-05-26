@@ -16,6 +16,7 @@ class ThrowableObject extends MovableObject {
     ]
 
     isSplashed = false;
+    groundY = 420;
 
     constructor(x, y, character) {
         super();
@@ -39,18 +40,17 @@ class ThrowableObject extends MovableObject {
         this.speedY = 30;
         this.applyGravity();
         setStoppableInterval(() => {
+            if (this.isSplashed) return;
             this.x += this.speedX;
         }, 25);
         setStoppableInterval(() => {
+            if (this.isSplashed) return;
             if (this.speedY < 0) {
                 this.playAnimation(this.IMAGE_THROW);
             }
-            if (this.y >= 320) {
+            if (this.y + this.height >= this.groundY) {
+                this.y = this.groundY - this.height;
                 this.splash();
-                setTimeout(() => {
-                    this.removeFromWorld();
-                }, 500);
-
             }
         }, 100);
     }
@@ -61,6 +61,11 @@ class ThrowableObject extends MovableObject {
         this.isSplashed = true;
         this.speedX = 0;
         this.speedY = 0;
+        this.acceleration = 0;
         this.playAnimation(this.IMAGE_SPLASH);
+
+        setTimeout(() => {
+            this.removeFromWorld();
+        }, 500);
     }
 }

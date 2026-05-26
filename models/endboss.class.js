@@ -45,7 +45,7 @@ class Endboss extends MovableObject {
     isAlerted = false;
 
 
-    constructor() {
+    constructor(x) {
         super();
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING)
@@ -54,15 +54,16 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_HURT)
         this.loadImages(this.IMAGES_DEAD)
 
-        this.x = 400;
-        this.speed = 0.5;
+        this.x = x;
+        this.speed = 0;
         this.animate();
     }
 
     animate() {
         setStoppableInterval(() => {
-            if (this.world.character.x > 100 && this.world.character.x < 500 && this.isAlerted === false) {
+            if (this.world.character.x > 500 && this.world.character.x < 800 && this.isAlerted === false) {
                 this.playAnimation(this.IMAGES_ALERT);
+                this.speed = 1;
                 if (this.currentImage >= this.IMAGES_ALERT.length) {
                     this.isAlerted = true;
                     this.currentImage = 0;

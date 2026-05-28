@@ -155,6 +155,12 @@ p {
     background-color: transparent;
 }
 
+.game-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
 .game-container:fullscreen {
     width: 100vw;
     height: 100vh;
@@ -164,11 +170,10 @@ p {
     background-image: url("assets/img/desert.png")
 }
 
-.game-container:fullscreen canvas {
+.game-container:fullscreen .game-screen {
     position: relative;
     left: auto;
     top: auto;
-    display: block;
     width: min(100vw, calc(100vh * 720 / 480));
     height: min(100vh, calc(100vw * 480 / 720));
     margin: auto;

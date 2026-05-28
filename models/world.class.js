@@ -11,7 +11,7 @@ class World {
     keyboard;
     camera_x = 0;
     lastBottleThrow = 0;
-    bottleThrowCooldown = 300; // ms Abstand zwischen zwei Flaschenwürfen
+    bottleThrowCooldown = 500; // ms Abstand zwischen zwei Flaschenwürfen
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");

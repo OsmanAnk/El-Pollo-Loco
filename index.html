@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<html translate="no">
 
 <head>
     <meta charset="UTF-8">
@@ -31,35 +32,34 @@
 </head>
 
 <body>
-    <div class="testFullscreen" id="testFullscreen">
+    <div class="game-container" id="game-container">
+        <h1>El pollo loco</h1>
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <div class="action-btns">
+            <img src="assets/icons/fullscreen.png" alt="fullscreen" class="fullscreen-button"
+                id="fullscreen-btn" onclick="toggleFullscreen('game-container')"></img>
+            <img src="assets/icons/lautstarke.png" alt="sound-on" class="sound-button" id="sound-btn"
+                onclick="toggleSound(this)">
+            <img src="assets/icons/keyboard.png" alt="keyboard binds" class="keyboard-binds" id="keyboard-binds"
+                onclick="showControls()"></img>
+        </div>
         <div class="start-screen" id="start-screen">
-            <div class="start-screen-wrapper">
+            <div class="start-screen-wrapper" id="start-screen-wrapper">
                 <h1>El pollo loco</h1>
                 <img src="assets/img/9_intro_outro_screens/start/startscreen_1.png" alt="startscreen"
                     class="start-screen-image">
                 <button class="start-button" onclick="startGame()">
                     Start
                 </button>
-                <div class="action-btns">
-                    <img src="assets/icons/fullscreen.png" alt="fullscreen" class="fullscreen-button"
-                        id="fullscreen-btn" onclick="toggleFullscreen()"></img>
-                    <img src="assets/icons/lautstarke.png" alt="sound-on" class="sound-button" id="sound-btn"
-                        onclick="toggleSound(this)">
-                    <img src="assets/icons/keyboard.png" alt="keyboard binds" class="keyboard-binds" id="keyboard-binds"
-                        onclick="showControls()"></img>
-                </div>
                 <button class="imprint-button" onclick="showImprint()">
                     Imprint
                 </button>
             </div>
 
         </div>
-        <div class="game-container" id="game-container">
-            <h1>El pollo loco</h1>
-            <canvas id="canvas" width="720" height="480"></canvas>
-        </div>
         <div class="end-screen d_none" id="end-screen">
         </div>
+    </div>
         <div id="keyboard-controls-screen" class="keyboard-controls-screen d_none" onclick="showControls()">
             <div class="keyboard-controls-wrapper" onclick="event.stopPropagation()">
                 <h2>Keyboard Controls</h2>
@@ -79,7 +79,6 @@
                 <button class="close-btn" onclick="closeModal()">Close</button>
             </div>
         </div>
-    </div>
 </body>
 
 </html>

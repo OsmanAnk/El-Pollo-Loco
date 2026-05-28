@@ -4,6 +4,7 @@ let isGamePaused = false;
 function startGame() {
     const startScreen = document.getElementById("start-screen");
     startScreen.style.display = "none";
+    showHomeButton();
     initLevel1();
     init();
     if (document.fullscreenElement && document.fullscreenElement.id !== "game-container") {
@@ -14,6 +15,7 @@ function startGame() {
 function restartGame() {
     const gameOverScreen = document.getElementById("end-screen");
     gameOverScreen.classList.add("d_none");
+    showHomeButton();
     initLevel1();
     init();
 }
@@ -29,6 +31,7 @@ function setStoppableInterval(fn, time) {
 
 function stopGame() {
     intervalIDs.forEach(clearInterval);
+    intervalIDs = [];
 }
 
 function eventBubbling(event) {
@@ -98,10 +101,30 @@ function showImprint() {
     imprintRef.classList.remove("d_none");
 }
 
+function goToStartMenu() {
+    const startScreen = document.getElementById("start-screen");
+    const gameOverScreen = document.getElementById("end-screen");
+    stopGame();
+    resumeGame();
+    hideHomeButton();
+    gameOverScreen.classList.add("d_none");
+    startScreen.style.display = "flex";
+}
+
 function pauseGame() {
     isGamePaused = true;
 }
 
 function resumeGame() {
     isGamePaused = false;
+}
+
+function showHomeButton() {
+    const homeButton = document.getElementById("home-btn");
+    homeButton.classList.remove("d_none");
+}
+
+function hideHomeButton() {
+    const homeButton = document.getElementById("home-btn");
+    homeButton.classList.add("d_none");
 }

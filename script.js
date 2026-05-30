@@ -5,6 +5,7 @@ function startGame() {
     const startScreen = document.getElementById("start-screen");
     startScreen.style.display = "none";
     showHomeButton();
+    showmobileControls();
     initLevel1();
     init();
     if (document.fullscreenElement && document.fullscreenElement.id !== "game-container") {
@@ -16,6 +17,7 @@ function restartGame() {
     const gameOverScreen = document.getElementById("end-screen");
     gameOverScreen.classList.add("d_none");
     showHomeButton();
+    showmobileControls();
     initLevel1();
     init();
 }
@@ -107,6 +109,7 @@ function goToStartMenu() {
     stopGame();
     resumeGame();
     hideHomeButton();
+    hideMobileControls();
     gameOverScreen.classList.add("d_none");
     startScreen.style.display = "flex";
 }
@@ -127,4 +130,14 @@ function showHomeButton() {
 function hideHomeButton() {
     const homeButton = document.getElementById("home-btn");
     homeButton.classList.add("d_none");
+}
+
+function showmobileControls() {
+    const mobileControls = document.getElementById("mobile-controls");
+    mobileControls.classList.remove("d_none");
+}
+
+function hideMobileControls() {
+    const mobileControls = document.getElementById("mobile-controls");
+    mobileControls.classList.add("d_none");
 }

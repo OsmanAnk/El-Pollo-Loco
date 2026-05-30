@@ -184,7 +184,7 @@ p {
     height: min(100vh, calc(100vw * 480 / 720));
 }
 
-.game-container:fullscreen > h1 {
+.game-container:fullscreen>h1 {
     display: none;
 }
 
@@ -341,8 +341,85 @@ canvas {
     }
 }
 
-.start-screen-wrapper:fullscreen {
-    width: 100vw;
-    height: 100vh;
+@media only screen and (max-height: 480px) {
+    canvas {
+        display: block;
+    }
+
+    h1 {
+        display: none;
+    }
 }
 
+.game-container:fullscreen .start-screen-wrapper h1 {
+    display: none;
+}
+
+.game-container:fullscreen .start-button {
+    padding: 12px 38px;
+    top: 90px;
+    font-size: 116px;
+}
+
+.game-container:fullscreen .imprint-button {
+    font-size: 36px;
+}
+
+.mobile-controls {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .mobile-controls {
+        position: absolute;
+        bottom: 16px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 24px;
+        box-sizing: border-box;
+        z-index: 5000;
+        pointer-events: none;
+    }
+
+    .mobile-controls button {
+        pointer-events: auto;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 3px solid #8b4a00;
+        background: #ffdd02;
+        color: #5c2e00;
+        font-size: 32px;
+        font-family: 'Zabars', sans-serif;
+        box-shadow: 0 4px 0 #b87900;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mobile-controls button:active {
+        transform: scale(0.92);
+        background: #ffa400;
+    }
+
+    .mobile-throw-btn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .mobile-left-side {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 100px;
+    }
+
+    .mobile-right-side {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+}

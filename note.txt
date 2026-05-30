@@ -18,12 +18,15 @@ schnarchen
 -Flaschen sammeln -> Done
 -Flaschen nur werfen, wenn sie vorhanden sind -> Done
 -collision (Flaschen mit Gegner) -> Done
--collision (Charakter mit Gegner) -> Schaden, obwohl auf den Gegnger gesprungen wird
--Endgegner besiegen (mehrmals mit der Flasche treffen)
+-collision (Charakter mit Gegner) -> Schaden, obwohl auf den Gegnger gesprungen wird -> Done
+-Endgegner besiegen (mehrmals mit der Flasche treffen) -> Done
 -game-over Screen -> Done
--Fullscreen -> fast
+-Fullscreen -> Done
+
 -Erklärung Taste -> neue Seite erstellen
 -SPLASH ANPASSEN!
+-schlafen nach 15 Sekunden
+-sounds hinzu
 
 -Ideen:
 Hauptmenü einfügen mit allen nötigen Buttons

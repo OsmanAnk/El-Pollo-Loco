@@ -70,6 +70,11 @@ class Character extends MovableObject {
     bottle = 0;
     idleStartTime = new Date().getTime();
 
+    hurtSound = new Audio("audio/character_hurt.mp3");
+    snoreSound = new Audio("audio/snore_sound.mp3");
+
+
+
     constructor() {
         super().loadImage("assets/img/2_character_pepe/2_walk/W-21.png");
         this.loadImages(this.IMAGES_WALKING);
@@ -79,6 +84,11 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.applyGravity()
+
+        this.hurtSound.volume = 0.05;
+        this.snoreSound.volume = 0.05;
+        this.snoreSound.loop = true;
+
         this.animate();
     }
 
@@ -88,15 +98,18 @@ class Character extends MovableObject {
                 this.moveRight();
                 this.otherDirection = false;
                 this.idleStartTime = new Date().getTime();
+                this.stopSnore();
             }
             if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft()
                 this.otherDirection = true;
                 this.idleStartTime = new Date().getTime();
+                this.stopSnore();
             }
             if (this.world.keyboard.UP && !this.isAboveGround()) {
                 this.jump();
                 this.idleStartTime = new Date().getTime();
+                this.stopSnore();
             }
 
             this.world.camera_x = -this.x + 100;
@@ -104,7 +117,7 @@ class Character extends MovableObject {
 
         setStoppableInterval(() => {
             if (this.isHurt()) {
-                this.playAnimation(this.IMAGES_HURT)
+                this.playAnimation(this.IMAGES_HURT);
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
                 this.world.gameover();
@@ -124,6 +137,7 @@ class Character extends MovableObject {
         setStoppableInterval(() => {
             if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround() && !this.isHurt() && !this.isDead() && new Date().getTime() - this.idleStartTime > 15000) {
                 this.playAnimation(this.IMAGES_LONG_IDLE);
+                this.snore();
             }
         }, 1000 / 5);
     }
@@ -134,5 +148,20 @@ class Character extends MovableObject {
 
     bounce() {
         this.speedY = 20;
+    }
+
+    hit() {
+        super.hit();
+        this.hurtSound.play();
+        this.stopSnore();
+    }
+
+    snore() {
+        this.snoreSound.play();
+    }
+
+    stopSnore() {
+        this.snoreSound.pause();
+        this.snoreSound.currentTime = 0;
     }
 }

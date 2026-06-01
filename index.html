@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>El Pollo Loco</title>
     <link rel="icon" type="image/png" href="assets/icons/mexican-hat.png">
 
     <link rel="stylesheet" href="style.css">
@@ -75,6 +75,21 @@
             </div>
         </div>
         <div class="end-screen d_none" id="end-screen">
+            <div class="end-screen-wrapper d_none" id="game-over-content">
+                <img src="assets/img/You won, you lost/You lost.png" alt="game over screen" class="end-screen-image">
+
+                <button class="restart-button" onclick="restartGame()">
+                    Restart
+                </button>
+            </div>
+
+            <div class="end-screen-wrapper d_none" id="you-win-content">
+                <img src="assets/img/You won, you lost/You won A.png" alt="you win screen" class="end-screen-image">
+
+                <button class="restart-button" onclick="restartGame()">
+                    Restart
+                </button>
+            </div>
         </div>
     </div>
     <div id="keyboard-controls-screen" class="keyboard-controls-screen d_none" onclick="showControls()">

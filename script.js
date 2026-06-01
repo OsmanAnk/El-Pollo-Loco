@@ -9,6 +9,12 @@ gameSound = new Audio("audio/ingame_sound.mp3");
 gameSound.loop = true;
 gameSound.volume = 0.01;
 
+loseSound = new Audio("audio/lose_sound.mp3");
+loseSound.volume = 0.05;
+
+winSound = new Audio("audio/win_sound.mp3");
+winSound.volume = 0.1;
+
 function startGame() {
     stopStartSound();
     playGameSound();
@@ -30,6 +36,7 @@ function restartGame() {
     showmobileControls();
     initLevel1();
     init();
+    playGameSound();
 }
 
 function setStoppableInterval(fn, time) {
@@ -61,7 +68,6 @@ function toggleSound() {
         startSound.muted = true;
         sound.src = "assets/icons/klang.png";
     }
-    // sound.classList.toggle("muted");
 }
 
 function toggleFullscreen(elementId = "game-container") {
@@ -127,6 +133,7 @@ function goToStartMenu() {
     startScreen.style.display = "flex";
     playStartSound();
     stopGameSound();
+    world.character.stopSnore();
 }
 
 function pauseGame() {
@@ -158,7 +165,7 @@ function hideMobileControls() {
 }
 
 function playStartSound() {
-    startSound.play();
+    // startSound.play();
 }
 
 function stopStartSound() {
@@ -173,4 +180,12 @@ function playGameSound() {
 function stopGameSound() {
     gameSound.pause();
     gameSound.currentTime = 0;
+}
+
+function youLose() {
+    loseSound.play()
+}
+
+function youWin() {
+    winSound.play();
 }

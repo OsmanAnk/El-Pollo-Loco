@@ -22,10 +22,10 @@ schnarchen
 -Endgegner besiegen (mehrmals mit der Flasche treffen) -> Done
 -game-over Screen -> Done
 -Fullscreen -> Done
+-schlafen nach 15 Sekunden -> Done
 
 -Erklärung Taste -> neue Seite erstellen
--SPLASH ANPASSEN!
--schlafen nach 15 Sekunden
+-SPLASH ANPASSEN! (die flasche fliegt runter, obwohl es gesplasht ist)
 -sounds hinzu
 
 -Ideen:

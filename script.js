@@ -1,7 +1,17 @@
 let intervalIDs = [];
 let isGamePaused = false;
 
+startSound = new Audio("audio/start_sound.mp3");
+startSound.loop = true;
+startSound.volume = 0.05;
+
+gameSound = new Audio("audio/ingame_sound.mp3");
+gameSound.loop = true;
+gameSound.volume = 0.01;
+
 function startGame() {
+    stopStartSound();
+    playGameSound();
     const startScreen = document.getElementById("start-screen");
     startScreen.style.display = "none";
     showHomeButton();
@@ -42,12 +52,16 @@ function eventBubbling(event) {
 
 function toggleSound() {
     const sound = document.getElementById("sound-btn");
-    if (sound.src.includes("lautstarke.png")) {
+    if (gameSound.muted) {
+        gameSound.muted = false;
+        startSound.muted = false;
+        sound.src = "assets/icons/lautstarke.png";
+    } else {
+        gameSound.muted = true;
+        startSound.muted = true;
         sound.src = "assets/icons/klang.png";
     }
-    else {
-        sound.src = "assets/icons/lautstarke.png";
-    }
+    // sound.classList.toggle("muted");
 }
 
 function toggleFullscreen(elementId = "game-container") {
@@ -55,7 +69,6 @@ function toggleFullscreen(elementId = "game-container") {
     if (!fullscreen) {
         return;
     }
-
     if (!document.fullscreenElement) {
         enterFullscreen(fullscreen);
     }
@@ -112,6 +125,8 @@ function goToStartMenu() {
     hideMobileControls();
     gameOverScreen.classList.add("d_none");
     startScreen.style.display = "flex";
+    playStartSound();
+    stopGameSound();
 }
 
 function pauseGame() {
@@ -140,4 +155,22 @@ function showmobileControls() {
 function hideMobileControls() {
     const mobileControls = document.getElementById("mobile-controls");
     mobileControls.classList.add("d_none");
+}
+
+function playStartSound() {
+    startSound.play();
+}
+
+function stopStartSound() {
+    startSound.pause();
+    startSound.currentTime = 0;
+}
+
+function playGameSound() {
+    gameSound.play();
+}
+
+function stopGameSound() {
+    gameSound.pause();
+    gameSound.currentTime = 0;
 }

@@ -13,6 +13,18 @@ class World {
     lastBottleThrow = 0;
     bottleThrowCooldown = 500; // ms Abstand zwischen zwei Flaschenwürfen
 
+    
+    loseSound = new Audio("audio/lose_sound.mp3");
+    winSound = new Audio("audio/win_sound.mp3");
+    hurtSound = new Audio("audio/hurt_sound.mp3");
+    coinSound = new Audio("audio/coin_sound.mp3");
+    bottleCollectSound = new Audio("audio/bottle_collect.mp3");
+    bottleThrowSound = new Audio("audio/bottle_throw.mp3");
+    bottleSplashSound = new Audio("audio/bottle_splash.mp3");
+    chickenHurtSound = new Audio("audio/chicken_hurt.mp3");
+    endbossHurtSound = new Audio("audio/boss_hurt.mp3")
+    snoreSound = new Audio("audio/snore_sound.mp3");
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
@@ -192,6 +204,7 @@ class World {
         if (this.gameOverTriggered) return;
         this.gameOverTriggered = true;
         stopGame();
+        hideMobileControls();
 
         let gameOverScreen = document.getElementById("end-screen");
         gameOverScreen.innerHTML =
@@ -209,6 +222,7 @@ class World {
         if (this.youWinTriggered) return;
         this.youWinTriggered = true;
         stopGame();
+        hideMobileControls();
 
         let youWinScreen = document.getElementById("end-screen");
         youWinScreen.innerHTML =

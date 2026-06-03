@@ -30,13 +30,13 @@ schnarchen
 -localstorage für sound
 
 Imprint/Modal fehlerhaft: In index.html (line 107) wird hideImprint() aufgerufen,
-aber diese Funktion existiert nicht. Das erzeugt beim Klick außerhalb des Impressums einen Fehler.
+aber diese Funktion existiert nicht. Das erzeugt beim Klick außerhalb des Impressums einen Fehler. -> DONE
 
 Keyboard-Controls-Modal schließt außen nicht: In index.html (line 95) ruft der 
-Außenbereich showControls() statt closeModal() auf. Laut Checkliste soll der Dialog beim Klick daneben schließen.
+Außenbereich showControls() statt closeModal() auf. Laut Checkliste soll der Dialog beim Klick daneben schließen. -> DONE
 
 Endscreen hat keinen sichtbaren Home/Leave-Button: Die Checkliste verlangt Restart 
-und Möglichkeit zurück zum Home Screen. Dein Endscreen hat nur Restart: index.html (line 81) und index.html (line 89).
+und Möglichkeit zurück zum Home Screen. Dein Endscreen hat nur Restart: index.html (line 81) und index.html (line 89). -> DONE
 
 Mute Button mutet nicht alle Sounds: toggleSound() mutet nur gameSound und startSound: 
 script.js (line 60). Nicht gemutet werden z. B. Bottle-, Coin-, Hurt-, Win-, Lose- und Snore-Sounds.

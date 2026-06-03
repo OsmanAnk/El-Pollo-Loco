@@ -1,5 +1,6 @@
 let intervalIDs = [];
 let isGamePaused = false;
+let isMuted = localStorage.getItem("isMuted") === "true";
 
 startSound = new Audio("audio/start_sound.mp3");
 startSound.loop = true;
@@ -24,6 +25,7 @@ function startGame() {
     showmobileControls();
     initLevel1();
     init();
+    applyWorldMuteState();
     if (document.fullscreenElement && document.fullscreenElement.id !== "game-container") {
         enterFullscreen(document.getElementById("game-container"));
     }
@@ -36,6 +38,7 @@ function restartGame() {
     showmobileControls();
     initLevel1();
     init();
+    applyWorldMuteState();
     playGameSound();
 }
 
@@ -63,10 +66,16 @@ function toggleSound() {
         gameSound.muted = false;
         startSound.muted = false;
         sound.src = "assets/icons/lautstarke.png";
+        isMuted = false;
+        applyWorldMuteState();
+        saveMutedState();
     } else {
         gameSound.muted = true;
         startSound.muted = true;
         sound.src = "assets/icons/klang.png";
+        isMuted = true;
+        applyWorldMuteState()
+        saveMutedState();
     }
 }
 
@@ -163,7 +172,7 @@ function hideMobileControls() {
 }
 
 function playStartSound() {
-    // startSound.play();
+    startSound.play();
 }
 
 function stopStartSound() {
@@ -203,4 +212,44 @@ function pauseAllSounds() {
     world.chickHurtSound.pause();
 
     world.character.stopSnore();
+}
+
+function saveMutedState() {
+    localStorage.setItem("isMuted", isMuted);
+}
+
+function loadMutedState() {
+    const savedState = localStorage.getItem("isMuted");
+    isMuted = savedState === "true";
+
+    gameSound.muted = isMuted;
+    startSound.muted = isMuted;
+    loseSound.muted = isMuted;
+    winSound.muted = isMuted;
+
+    applyWorldMuteState();
+
+    const sound = document.getElementById("sound-btn");
+
+    if (isMuted) {
+        sound.src = "assets/icons/klang.png";
+    } else {
+        sound.src = "assets/icons/lautstarke.png";
+    }
+}
+
+function applyWorldMuteState() {
+    if (!world) return;
+    world.coinSound.muted = isMuted;
+    world.bottleCollectSound.muted = isMuted;
+    world.bottleThrowSound.muted = isMuted;
+    world.bottleSplashSound.muted = isMuted;
+    world.endbossHurtSound.muted = isMuted;
+    world.chickenHurtSound.muted = isMuted;
+    world.chickHurtSound.muted = isMuted;
+
+    if (world.character) {
+        world.character.snoreSound.muted = isMuted;
+        world.character.hurtSound.muted = isMuted;
+    }
 }

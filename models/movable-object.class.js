@@ -87,10 +87,8 @@ class MovableObject extends DrawableObject {
     collect(items) {
         if (items instanceof Coin) {
             this.coin += 1;
-            // console.log("coins collected: ", this.coin);
         } else if (items instanceof Bottle) {
             this.bottle += 1;
-            // console.log("bottles collected: ", this.bottle);
         }
     }
 

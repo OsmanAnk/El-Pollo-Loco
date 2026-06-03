@@ -301,8 +301,15 @@ p {
     height: auto;
 }
 
-.restart-button {
+.end-screen-buttons {
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.restart-button,
+.home-screen-button {
     padding: 12px 32px;
     font-family: 'Zabars', sans-serif;
     font-size: 28px;
@@ -312,7 +319,8 @@ p {
     cursor: pointer;
 }
 
-.restart-button:hover {
+.restart-button:hover,
+.home-screen-button:hover {
     transform: scale(1.1);
 }
 

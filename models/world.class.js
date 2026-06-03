@@ -56,7 +56,6 @@ class World {
     checkThrowObjects() {
         let now = new Date().getTime();
         if (this.keyboard.SPACE && this.character.bottle >= 1 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
-            console.log("throw");
             this.bottleThrowSoundPlay()
             this.character.bottle -= 1; //vorher 20
             let bottle;

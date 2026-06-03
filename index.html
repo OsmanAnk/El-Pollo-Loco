@@ -77,22 +77,29 @@
         <div class="end-screen d_none" id="end-screen">
             <div class="end-screen-wrapper d_none" id="game-over-content">
                 <img src="assets/img/You won, you lost/You lost.png" alt="game over screen" class="end-screen-image">
-
-                <button class="restart-button" onclick="restartGame()">
-                    Restart
-                </button>
+                <div class="end-screen-buttons">
+                    <button class="restart-button" onclick="restartGame()">
+                        Restart
+                    </button>
+                    <button class="home-screen-button" onclick="goToStartMenu()">
+                        Home
+                    </button>
+                </div>
             </div>
-
             <div class="end-screen-wrapper d_none" id="you-win-content">
                 <img src="assets/img/You won, you lost/You won A.png" alt="you win screen" class="end-screen-image">
-
-                <button class="restart-button" onclick="restartGame()">
-                    Restart
-                </button>
+                <div class="end-screen-buttons">
+                    <button class="restart-button" onclick="restartGame()">
+                        Restart
+                    </button>
+                    <button class="home-screen-button" onclick="goToStartMenu()">
+                        Home
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-    <div id="keyboard-controls-screen" class="keyboard-controls-screen d_none" onclick="showControls()">
+    <div id="keyboard-controls-screen" class="keyboard-controls-screen d_none" onclick="closeModal()">
         <div class="keyboard-controls-wrapper" onclick="event.stopPropagation()">
             <h2>Keyboard Controls</h2>
             <ul>
@@ -104,7 +111,7 @@
             <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
-    <div id="imprint-screen" class="imprint-screen d_none" onclick="hideImprint()">
+    <div id="imprint-screen" class="imprint-screen d_none">
         <div class="imprint-wrapper" onclick="event.stopPropagation()">
             <h2>Imprint</h2>
             <p>Game developed by Osman</p>

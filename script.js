@@ -91,7 +91,6 @@ function enterFullscreen(element) {
     } else if (element.msRequestFullscreen) {
         element.msRequestFullscreen();
     }
-    console.log('enter fullscreen');
 }
 
 function exitFullscreen() {
@@ -100,7 +99,6 @@ function exitFullscreen() {
     } else if (document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
     }
-    console.log('exit fullscreen');
 }
 
 function showControls() {
@@ -188,4 +186,21 @@ function youLose() {
 
 function youWin() {
     winSound.play();
+}
+
+function pauseAllSounds() {
+    gameSound.pause();
+    startSound.pause();
+    loseSound.pause();
+    winSound.pause();
+
+    world.coinSound.pause();
+    world.bottleCollectSound.pause();
+    world.bottleThrowSound.pause();
+    world.bottleSplashSound.pause();
+    world.endbossHurtSound.pause();
+    world.chickenHurtSound.pause();
+    world.chickHurtSound.pause();
+
+    world.character.stopSnore();
 }

@@ -72,7 +72,7 @@ class Character extends MovableObject {
 
     hurtSound = new Audio("audio/character_hurt.mp3");
     snoreSound = new Audio("audio/snore_sound.mp3");
-
+    jumpSound = new Audio("audio/character_jump.mp3");
 
 
     constructor() {
@@ -88,6 +88,7 @@ class Character extends MovableObject {
         this.hurtSound.volume = 0.05;
         this.snoreSound.volume = 0.05;
         this.snoreSound.loop = true;
+        this.jumpSound.volume = 0.05;
 
         this.animate();
     }
@@ -144,6 +145,8 @@ class Character extends MovableObject {
 
     jump() {
         this.speedY = 30;
+        this.jumpSound.currentTime = 0;
+        this.jumpSound.play();
     }
 
     bounce() {

@@ -62,6 +62,10 @@ p {
     letter-spacing: 0.5px;
 }
 
+.orientation-warning {
+    display: none;
+}
+
 .start-screen h1 {
     position: absolute;
     top: -90px;
@@ -429,5 +433,26 @@ canvas {
         display: flex;
         flex-direction: column;
         gap: 16px;
+    }
+}
+
+@media (orientation: portrait) and (pointer: coarse) {
+    .orientation-warning {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        box-sizing: border-box;
+        background-color: rgba(0, 0, 0, 0.9);
+        color: white;
+        text-align: center;
+    }
+
+    .orientation-warning p {
+        margin: 0;
+        font-size: 32px;
     }
 }

@@ -145,10 +145,23 @@ function goToStartMenu() {
 
 function pauseGame() {
     isGamePaused = true;
+    pauseAllSounds();
 }
 
 function resumeGame() {
     isGamePaused = false;
+    resumeBackgroundSound()
+}
+
+function resumeBackgroundSound() {
+    if (isMuted) {
+        return;
+    }
+    if (world) {
+        playGameSound();
+    } else {
+        playStartSound();
+    }
 }
 
 function showHomeButton() {
@@ -169,6 +182,15 @@ function showmobileControls() {
 function hideMobileControls() {
     const mobileControls = document.getElementById("mobile-controls");
     mobileControls.classList.add("d_none");
+}
+
+function disableMobileContextMenu() {
+    if (!window.matchMedia("(pointer: coarse)").matches) {
+        return;
+    }
+    document.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+    });
 }
 
 function playStartSound() {

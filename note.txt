@@ -29,64 +29,14 @@ schnarchen
 -sounds hinzu
 -localstorage für sound
 
-Imprint/Modal fehlerhaft: In index.html (line 107) wird hideImprint() aufgerufen,
-aber diese Funktion existiert nicht. Das erzeugt beim Klick außerhalb des Impressums einen Fehler. -> DONE
 
-Keyboard-Controls-Modal schließt außen nicht: In index.html (line 95) ruft der 
-Außenbereich showControls() statt closeModal() auf. Laut Checkliste soll der Dialog beim Klick daneben schließen. -> DONE
-
-Endscreen hat keinen sichtbaren Home/Leave-Button: Die Checkliste verlangt Restart 
-und Möglichkeit zurück zum Home Screen. Dein Endscreen hat nur Restart: index.html (line 81) und index.html (line 89). -> DONE
-
-Mute Button mutet nicht alle Sounds: toggleSound() mutet nur gameSound und startSound: 
-script.js (line 60). Nicht gemutet werden z. B. Bottle-, Coin-, Hurt-, Win-, Lose- und Snore-Sounds.
-
-Mute-Status wird nicht im Local Storage gespeichert: In deinem Projekt gibt es kein localStorage. 
-Das ist laut Checkliste erforderlich.
-
-pauseAllSounds() ist noch nicht eingebunden: Die Funktion existiert ab script.js (line 193), 
-wird aber in pauseGame() nicht aufgerufen. Außerdem greift sie ohne Prüfung auf world zu, was vor Spielstart crashen kann.
-
-Startsound ist deaktiviert: script.js (line 167) enthält nur // startSound.play();.
-
-Bottlebar nach Wurf fehlerhaft: Beim Einsammeln rechnest du Prozentwerte, 
-beim Werfen setzt du aber direkt die Flaschenanzahl: models/world.class.js (line 70). Bei z. B. 2 Flaschen wird dadurch 2% statt korrekter Prozentwert gesetzt.
-
-Death Animation wird wahrscheinlich abgebrochen: In models/character.class.js (line 121) 
-wird direkt nach dem ersten Dead-Frame gameover() aufgerufen. gameover() stoppt dann alle Intervalle: 
-models/world.class.js (line 283). Dadurch läuft die Todesanimation nicht sauber durch.
-
-Debug-Hitboxen werden gezeichnet: models/drawable-object.class.js (line 27) zeichnet 
-rote Rechtecke um viele Objekte. Für die Abgabe sollte das deaktiviert sein.
-
-Hochformat-Warnung fehlt: Es gibt keine Anzeige wie „Turn your device to play“. 
-CSS hat Media Queries, aber keine Portrait-Overlay-Logik.
-
-Mobile Touch Context Menu nicht deaktiviert: Bei den Mobile Buttons gibt es 
-kein contextmenu/touch-callout/user-select Handling. Laut Checkliste soll Rechtsklick bzw. Touch-and-Hold deaktiviert sein.
-
-HTML ist formal fehlerhaft: Du hast zwei öffnende <html> Tags: index.html (line 2) und index.html (line 3).
-
-Pfeilzeichen sind kaputt kodiert: Mobile Buttons zeigen â†, â†’, â†‘ statt Pfeile: index.html (line 52).
-
-JSDoc fehlt: Die Checkliste verlangt JSDoc-Dokumentation. Ich habe keine /** ... */, @param, @returns gefunden.
-
-Funktionen teils deutlich länger als 14 Zeilen: Beispiele: Character.animate() 
-ab models/character.class.js (line 95), World.draw() ab models/world.class.js (line 224), Endboss.animate() 
-ab models/endboss.class.js (line 62).
-
-.gitignore fehlt: Es gibt ein Git-Repo und Commits, aber keine .gitignore.
-
-Arbeitsstand ist nicht committed: git status zeigt aktuell M script.js.
-
-Eher kritisch/prüfen
-Der Endboss steht in level1 bei x = 1000: levels.js/level1.js (line 24). 
-Er wird schon aktiv, wenn Pepe zwischen x > 500 und < 800 ist: models/endboss.class.js (line 64). 
-Das kann dazu führen, dass man relativ früh überrannt wird.
-Viele Gegner sind auskommentiert: levels.js/level1.js (line 6). 
-Es gibt zwar 2 Gegnertypen + Endboss, aber der Level wirkt dadurch noch unfertig.
-Beim Restart erzeugst du eine neue World, aber alte requestAnimationFrame-Loops werden nicht gestoppt. 
-stopGame() stoppt nur Intervalle, nicht draw().
+Jump-Sound fehlt noch. In audio/ gibt es keinen eigenen jump-Sound und beim jump() wird nichts abgespielt.
+Bottlebar ist nach dem Werfen falsch: Beim Sammeln setzt du Prozent, beim Werfen setzt du direkt die Anzahl
+Debug-Hitboxen werden noch gezeichnet:
+Death-Animation wird wahrscheinlich zu früh abgebrochen, weil gameover() direkt nach playAnimation(IMAGES_DEAD) kommt:
+requestAnimationFrame läuft bei Restart weiter, weil stopGame() nur Intervalle stoppt:
+JSDoc fehlt weiterhin, falls deine Abgabecheckliste das verlangt.
+.gitignore fehlt weiterhin.
 
 -Ideen:
 Hauptmenü einfügen mit allen nötigen Buttons

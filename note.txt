@@ -30,11 +30,9 @@ schnarchen
 -localstorage für sound
 
 
-Jump-Sound fehlt noch. In audio/ gibt es keinen eigenen jump-Sound und beim jump() wird nichts abgespielt.
 Bottlebar ist nach dem Werfen falsch: Beim Sammeln setzt du Prozent, beim Werfen setzt du direkt die Anzahl
-Debug-Hitboxen werden noch gezeichnet:
-Death-Animation wird wahrscheinlich zu früh abgebrochen, weil gameover() direkt nach playAnimation(IMAGES_DEAD) kommt:
-requestAnimationFrame läuft bei Restart weiter, weil stopGame() nur Intervalle stoppt:
+Debug-Hitboxen werden noch gezeichnet
+requestAnimationFrame läuft bei Restart weiter, weil stopGame() nur Intervalle stoppt
 JSDoc fehlt weiterhin, falls deine Abgabecheckliste das verlangt.
 .gitignore fehlt weiterhin.
 

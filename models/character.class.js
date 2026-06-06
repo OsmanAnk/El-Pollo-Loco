@@ -69,6 +69,7 @@ class Character extends MovableObject {
     coin = 0;
     bottle = 0;
     idleStartTime = new Date().getTime();
+    deathAnimationPlayed = false;
 
     hurtSound = new Audio("audio/character_hurt.mp3");
     snoreSound = new Audio("audio/snore_sound.mp3");
@@ -121,7 +122,12 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
-                this.world.gameover();
+                if (!this.deathAnimationPlayed) {
+                    this.deathAnimationPlayed = true;
+                    setTimeout(() => {
+                        this.world.gameover();
+                    }, 500);
+                }
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING)
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {

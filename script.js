@@ -16,6 +16,11 @@ loseSound.volume = 0.05;
 winSound = new Audio("audio/win_sound.mp3");
 winSound.volume = 0.1;
 
+/**
+ * Startet eine neue Spielsitzung vom Startbildschirm aus.
+ * Stoppt die Startmusik, spielt die Spielmusik ab, blendet den Startbildschirm aus,
+ * zeigt die Spielsteuerung an, initialisiert die Leveldaten und wendet den aktuellen Stumm-Status an.
+ */
 function startGame() {
     stopStartSound();
     playGameSound();
@@ -31,6 +36,11 @@ function startGame() {
     }
 }
 
+/**
+ * Startet das Spiel nach einem Game-Over neu.
+ * Blendet den Endbildschirm aus, zeigt die Spielsteuerung an,
+ * initialisiert Level und Spielwelt neu und startet die Spielmusik.
+ */
 function restartGame() {
     const gameOverScreen = document.getElementById("end-screen");
     gameOverScreen.classList.add("d_none");
@@ -194,7 +204,7 @@ function disableMobileContextMenu() {
 }
 
 function playStartSound() {
-    startSound.play();
+    playAudio(startSound);
 }
 
 function stopStartSound() {
@@ -203,7 +213,7 @@ function stopStartSound() {
 }
 
 function playGameSound() {
-    gameSound.play();
+    playAudio(gameSound);
 }
 
 function stopGameSound() {
@@ -212,11 +222,11 @@ function stopGameSound() {
 }
 
 function youLose() {
-    loseSound.play()
+    playAudio(loseSound);
 }
 
 function youWin() {
-    winSound.play();
+    playAudio(winSound);
 }
 
 function pauseAllSounds() {
@@ -273,5 +283,12 @@ function applyWorldMuteState() {
     if (world.character) {
         world.character.snoreSound.muted = isMuted;
         world.character.hurtSound.muted = isMuted;
+    }
+}
+
+function playAudio(audio) {
+    let promise = audio.play();
+    if (promise !== undefined) {
+        promise.then(_ => { }).catch(error => { });
     }
 }

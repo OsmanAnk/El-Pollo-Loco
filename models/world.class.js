@@ -11,6 +11,7 @@ class World {
     keyboard;
     camera_x = 0;
     lastBottleThrow = 0;
+    maxBottles = 5;
     bottleThrowCooldown = 500; // ms Abstand zwischen zwei Flaschenwürfen
 
     coinSound = new Audio("audio/coin_collect.mp3");
@@ -66,9 +67,14 @@ class World {
             }
             bottle.world = this;
             this.throwableObjects.push(bottle);
-            this.bottlebar.setPercentage(this.character.bottle);
+            this.updateBottlebar();
             this.lastBottleThrow = now;
         }
+    }
+
+    updateBottlebar() {
+        let bottlePercent = Math.min((this.character.bottle / this.maxBottles) * 100, 100);
+        this.bottlebar.setPercentage(bottlePercent);
     }
 
     bottleThrowSoundPlay() {
@@ -128,9 +134,7 @@ class World {
             if (this.character.isColliding(bottle)) {
                 this.bottleCollectSoundPlay();
                 this.character.collect(bottle);
-                let totalBottles = this.level.bottles.length || 1;
-                let bottlePercent = Math.round((this.character.bottle / totalBottles) * 100);
-                this.bottlebar.setPercentage(bottlePercent);
+                this.updateBottlebar();
                 if (bottle.x > 4000) {
                     bottle.x = 10000;
                 }

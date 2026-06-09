@@ -198,7 +198,6 @@ class World {
 
     handleBottleHitEnemy(bottle, enemy) {
         bottle.splash();
-        this.bottleSplashSoundPlay();
         this.hitEnemy(enemy);
     }
 
@@ -299,7 +298,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
+        // mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

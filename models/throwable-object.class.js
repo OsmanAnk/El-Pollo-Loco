@@ -74,11 +74,15 @@ class ThrowableObject extends MovableObject {
     splash() {
         if (this.isSplashed) return;
 
+        this.world.bottleSplashSoundPlay();
         this.isSplashed = true;
         this.speedX = 0;
         this.speedY = 0;
         this.acceleration = 0;
-        this.playAnimation(this.IMAGE_SPLASH);
+        this.currentImage = 0;
+        setStoppableInterval(() => {
+            this.playAnimation(this.IMAGE_SPLASH);
+        }, 75);
 
         setTimeout(() => {
             this.removeFromWorld();

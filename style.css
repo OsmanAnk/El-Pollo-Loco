@@ -300,6 +300,10 @@ p {
     max-width: 90%;
 }
 
+.game-container:fullscreen .end-screen-wrapper {
+    box-shadow: none;
+}
+
 .end-screen-wrapper img {
     width: 100%;
     height: auto;
@@ -433,6 +437,12 @@ canvas {
         display: flex;
         flex-direction: column;
         gap: 16px;
+    }
+
+    .game-container:fullscreen .start-button {
+        top: 40px;
+        padding: 8px 28px;
+        font-size: 56px;
     }
 }
 

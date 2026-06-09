@@ -15,13 +15,18 @@ class MovableObject extends DrawableObject {
             if (this instanceof ThrowableObject && this.isSplashed) {
                 return;
             }
-            if (this.isAboveGround() || this.speedY > 0) {
-                this.y -= this.speedY; //von der aktuellen Position y wird speedY abgezogen ->hier: 280 - 0
-                this.speedY -= this.acceleration; //von speedY wird die Beschleunigung abgezogen ->hier: 0 - 1; somit wird oben in y 280 - (-1) addiert
-            }
+            if (this.shouldFall()) this.fall();
         }, 1000 / 30);
     }
 
+    shouldFall() {
+        return this.isAboveGround() || this.speedY > 0;
+    }
+
+    fall() {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+    }
 
     isAboveGround() {
         if (this instanceof ThrowableObject) { //throwable fallen komplett runter
@@ -33,18 +38,26 @@ class MovableObject extends DrawableObject {
 
     isColliding(mo) {
         if (mo instanceof Endboss) {
-            return (
-                this.x + this.width > mo.x + 100 &&
-                this.y + this.height > mo.y + 150 &&
-                this.x < mo.x + mo.width - 150 &&
-                this.y < mo.y + mo.height - 150
-            );
+            return this.isCollidingWithEndboss(mo);
         }
+        return this.isCollidingWithObject(mo);
+    }
+
+    isCollidingWithEndboss(mo) {
+        return (
+            this.x + this.width > mo.x + 100 &&
+            this.y + this.height > mo.y + 150 &&
+            this.x < mo.x + mo.width - 150 &&
+            this.y < mo.y + mo.height - 150
+        );
+    }
+
+    isCollidingWithObject(mo) {
         return (
             this.x + this.width > mo.x && //rechte Seite des Charakters mit linker Seite des Gegners
             this.y + this.height > mo.y && //untere Seite des Charakters mit oberer Seite des Gegners
             this.x < mo.x + mo.width && //linke Seite des Charakters mit rechter Seite des Gegners
-            this.y < mo.y + mo.height   //obere Seite des Charakters mit unterer Seite des Gegners
+            this.y < mo.y + mo.height //obere Seite des Charakters mit unterer Seite des Gegners
         );
     }
 

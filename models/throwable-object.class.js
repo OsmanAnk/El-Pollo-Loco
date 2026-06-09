@@ -32,27 +32,43 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
+        this.setThrowDirection();
+        this.speedY = 30;
+        this.applyGravity();
+        this.startThrowMovement();
+        this.startThrowAnimation();
+    }
+
+    setThrowDirection() {
         if (this.character.otherDirection) {
             this.speedX = -10;
         } else {
             this.speedX = 10;
         }
-        this.speedY = 30;
-        this.applyGravity();
+    }
+
+    startThrowMovement() {
         setStoppableInterval(() => {
             if (this.isSplashed) return;
             this.x += this.speedX;
         }, 25);
+    }
+
+    startThrowAnimation() {
         setStoppableInterval(() => {
             if (this.isSplashed) return;
             if (this.speedY < 0) {
                 this.playAnimation(this.IMAGE_THROW);
             }
-            if (this.y + this.height >= this.groundY) {
-                this.y = this.groundY - this.height;
-                this.splash();
-            }
+            this.splashOnGround();
         }, 100);
+    }
+
+    splashOnGround() {
+        if (this.y + this.height >= this.groundY) {
+            this.y = this.groundY - this.height;
+            this.splash();
+        }
     }
 
     splash() {

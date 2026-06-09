@@ -61,28 +61,51 @@ class Endboss extends MovableObject {
 
     animate() {
         setStoppableInterval(() => {
-            if (this.world.character.x > 500 && this.world.character.x < 800 && this.isAlerted === false) {
-                this.playAnimation(this.IMAGES_ALERT);
-                this.speed = 1;
-                if (this.currentImage >= this.IMAGES_ALERT.length) {
-                    this.isAlerted = true;
-                    this.currentImage = 0;
-                }
-            }
-            else if (this.isAttacking) {
-                this.playAnimation(this.IMAGES_ATTACK);
-            } else if (this.isHurt) {
-                this.playAnimation(this.IMAGES_HURT);
-                setTimeout(() => {
-                    this.isHurt = false;
-                }, 500);
-            } else if (this.endbossLife <= 0) {
-                this.playAnimation(this.IMAGES_DEAD);
-                this.world.youWin();
-            } else {
-                this.moveLeft();
-                this.playAnimation(this.IMAGES_WALKING);
-            }
+            this.playEndbossAnimation();
         }, 1000 / 6);
+    }
+
+    playEndbossAnimation() {
+        if (this.shouldPlayAlertAnimation()) {
+            this.playAlertAnimation();
+        } else if (this.isAttacking) {
+            this.playAnimation(this.IMAGES_ATTACK);
+        } else if (this.isHurt) {
+            this.playHurtAnimation();
+        } else if (this.endbossLife <= 0) {
+            this.playDeadAnimation();
+        } else {
+            this.walk();
+        }
+    }
+
+    shouldPlayAlertAnimation() {
+        return this.world.character.x > 500 && this.world.character.x < 800 && this.isAlerted === false;
+    }
+
+    playAlertAnimation() {
+        this.playAnimation(this.IMAGES_ALERT);
+        this.speed = 1;
+        if (this.currentImage >= this.IMAGES_ALERT.length) {
+            this.isAlerted = true;
+            this.currentImage = 0;
+        }
+    }
+
+    playHurtAnimation() {
+        this.playAnimation(this.IMAGES_HURT);
+        setTimeout(() => {
+            this.isHurt = false;
+        }, 500);
+    }
+
+    playDeadAnimation() {
+        this.playAnimation(this.IMAGES_DEAD);
+        this.world.youWin();
+    }
+
+    walk() {
+        this.moveLeft();
+        this.playAnimation(this.IMAGES_WALKING);
     }
 }

@@ -12,7 +12,7 @@ class World {
     camera_x = 0;
     lastBottleThrow = 0;
     maxBottles = 5;
-    bottleThrowCooldown = 500; // ms Abstand zwischen zwei Flaschenwürfen
+    bottleThrowCooldown = 500;
 
     coinSound = new Audio("audio/coin_collect.mp3");
     bottleCollectSound = new Audio("audio/bottle_collect.mp3");
@@ -22,8 +22,6 @@ class World {
     chickenHurtSound = new Audio("audio/chicken_hurt.mp3");
     chickHurtSound = new Audio("audio/chick_hurt.mp3")
 
-
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
@@ -31,7 +29,10 @@ class World {
         this.setWorld();
         this.draw();
         this.run();
+        this.setSoundVolumes();
+    }
 
+    setSoundVolumes() {
         this.coinSound.volume = 0.05;
         this.bottleCollectSound.volume = 0.05;
         this.bottleThrowSound.volume = 0.05;
@@ -56,20 +57,28 @@ class World {
 
     checkThrowObjects() {
         let now = new Date().getTime();
-        if (this.keyboard.SPACE && this.character.bottle >= 1 && now - this.lastBottleThrow > this.bottleThrowCooldown) {
-            this.bottleThrowSoundPlay()
-            this.character.bottle -= 1; //vorher 20
-            let bottle;
-            if (this.character.otherDirection) {
-                bottle = new ThrowableObject(this.character.x - 100, this.character.y + 100, this.character);
-            } else {
-                bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
-            }
-            bottle.world = this;
-            this.throwableObjects.push(bottle);
-            this.updateBottlebar();
-            this.lastBottleThrow = now;
+        if (this.canThrowBottle(now)) this.throwBottle(now);
+    }
+
+    canThrowBottle(now) {
+        return this.keyboard.SPACE && this.character.bottle >= 1 && now - this.lastBottleThrow > this.bottleThrowCooldown;
+    }
+
+    throwBottle(now) {
+        this.bottleThrowSoundPlay()
+        this.character.bottle -= 1;
+        let bottle = this.createThrowableBottle();
+        bottle.world = this;
+        this.throwableObjects.push(bottle);
+        this.updateBottlebar();
+        this.lastBottleThrow = now;
+    }
+
+    createThrowableBottle() {
+        if (this.character.otherDirection) {
+            return new ThrowableObject(this.character.x - 100, this.character.y + 100, this.character);
         }
+        return new ThrowableObject(this.character.x + 100, this.character.y + 100, this.character);
     }
 
     updateBottlebar() {
@@ -92,35 +101,41 @@ class World {
 
     checkCollisionsEnemy() {
         this.level.enemies.forEach((enemy) => {
-
-            let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y; //charakter ist über dem Gegner, mit Puffer von 30 Pixeln
-
-            if (this.character.isColliding(enemy) && !this.character.isHurt() && !isAboveEnemy) { //charakter kollidiert mit dem Gegner
-                this.character.hit();
-                this.healthbar.setPercentage(this.character.energy);
-
-                enemy.isAttacking = true; // Endboss greift an, wenn er getroffen wird
-                setTimeout(() => {
-                    enemy.isAttacking = false;
-                }, 1000);
-            }
+            if (this.isCharacterHitByEnemy(enemy)) this.handleCharacterEnemyHit(enemy);
         });
+    }
+
+    isCharacterHitByEnemy(enemy) {
+        let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y;
+        return this.character.isColliding(enemy) && !this.character.isHurt() && !isAboveEnemy;
+    }
+
+    handleCharacterEnemyHit(enemy) {
+        this.character.hit();
+        this.healthbar.setPercentage(this.character.energy);
+        enemy.isAttacking = true;
+        setTimeout(() => {
+            enemy.isAttacking = false;
+        }, 1000);
     }
 
     checkCollisionsCoins() {
         this.level.coins.forEach((coins) => {
-            if (this.character.isColliding(coins)) {
-                this.coinSoundPlay();
-                this.character.collect(coins);
-                let totalCoins = this.level.coins.length || 1;
-                let coinPercent = Math.round((this.character.coin / totalCoins) * 100);
-                this.coinbar.setPercentage(coinPercent);
-                if (coins.x > 4000) {
-                    coins.x = 10000;
-                }
-                coins.y = 10000;
-            }
+            if (this.character.isColliding(coins)) this.collectCoin(coins);
         });
+    }
+
+    collectCoin(coins) {
+        this.coinSoundPlay();
+        this.character.collect(coins);
+        this.updateCoinbar();
+        this.hideCollectedObject(coins);
+    }
+
+    updateCoinbar() {
+        let totalCoins = this.level.coins.length || 1;
+        let coinPercent = Math.round((this.character.coin / totalCoins) * 100);
+        this.coinbar.setPercentage(coinPercent);
     }
 
     coinSoundPlay() {
@@ -131,16 +146,20 @@ class World {
 
     checkCollisionsBottles() {
         this.level.bottles.forEach((bottle) => {
-            if (this.character.isColliding(bottle)) {
-                this.bottleCollectSoundPlay();
-                this.character.collect(bottle);
-                this.updateBottlebar();
-                if (bottle.x > 4000) {
-                    bottle.x = 10000;
-                }
-                bottle.y = 10000;
-            }
+            if (this.character.isColliding(bottle)) this.collectBottle(bottle);
         });
+    }
+
+    collectBottle(bottle) {
+        this.bottleCollectSoundPlay();
+        this.character.collect(bottle);
+        this.updateBottlebar();
+        this.hideCollectedObject(bottle);
+    }
+
+    hideCollectedObject(object) {
+        if (object.x > 4000) object.x = 10000;
+        object.y = 10000;
     }
 
     bottleCollectSoundPlay() {
@@ -151,37 +170,46 @@ class World {
 
     checkCollisionsAboveEnemies() {
         this.level.enemies.forEach((enemy) => {
-            let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y; //charakter ist über dem Gegner, mit einem kleinen Puffer von 30 Pixeln
-            if (this.character.isColliding(enemy) && this.character.speedY < 0 && isAboveEnemy) { //charakter springt auf den Gegner
-                if (enemy instanceof Endboss) {
-                    this.hitEndboss(enemy);
-                } else if (enemy instanceof Chicken) {
-                    this.hitChicken(enemy);
-                } else if (enemy instanceof Chick) {
-                    this.hitChick(enemy);
-                }
-                this.character.bounce(); // Charakter springt zurück hoch
-            }
+            if (this.isJumpingOnEnemy(enemy)) this.handleJumpOnEnemy(enemy);
         });
+    }
+
+    isJumpingOnEnemy(enemy) {
+        let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y;
+        return this.character.isColliding(enemy) && this.character.speedY < 0 && isAboveEnemy;
+    }
+
+    handleJumpOnEnemy(enemy) {
+        this.hitEnemy(enemy);
+        this.character.bounce();
     }
 
     checkCollisionsThrowableObjects() {
         this.throwableObjects.forEach((bottle) => {
             this.level.enemies.forEach((enemy) => {
-                if (bottle.isColliding(enemy) && !bottle.isSplashed) {
-                    bottle.splash();
-                    this.bottleSplashSoundPlay();
-
-                    if (enemy instanceof Endboss) {
-                        this.hitEndboss(enemy);
-                    } else if (enemy instanceof Chicken) {
-                        this.hitChicken(enemy);
-                    } else if (enemy instanceof Chick) {
-                        this.hitChick(enemy);
-                    }
-                }
+                if (this.isBottleHitEnemy(bottle, enemy)) this.handleBottleHitEnemy(bottle, enemy);
             });
         });
+    }
+
+    isBottleHitEnemy(bottle, enemy) {
+        return bottle.isColliding(enemy) && !bottle.isSplashed;
+    }
+
+    handleBottleHitEnemy(bottle, enemy) {
+        bottle.splash();
+        this.bottleSplashSoundPlay();
+        this.hitEnemy(enemy);
+    }
+
+    hitEnemy(enemy) {
+        if (enemy instanceof Endboss) {
+            this.hitEndboss(enemy);
+        } else if (enemy instanceof Chicken) {
+            this.hitChicken(enemy);
+        } else if (enemy instanceof Chick) {
+            this.hitChick(enemy);
+        }
     }
 
     hitEndboss(enemy) {
@@ -225,25 +253,35 @@ class World {
     }
 
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+        this.clearCanvas();
         this.ctx.translate(this.camera_x, 0);
+        this.drawMovableObjects();
+        this.ctx.translate(-this.camera_x, 0);
+        this.drawFixedObjects();
+        this.requestNextFrame();
+    }
 
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    drawMovableObjects() {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
-
         this.addToMap(this.character);
-        this.ctx.translate(-this.camera_x, 0);
+    }
+
+    drawFixedObjects() {
         this.addToMap(this.healthbar);
         this.addToMap(this.coinbar);
         this.addToMap(this.bottlebar);
+    }
 
-
-        //draw() wird immer wieder aufgerufen
+    requestNextFrame() {
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -287,7 +325,10 @@ class World {
         hideMobileControls();
         stopGameSound();
         youLose();
+        this.showGameOverScreen();
+    }
 
+    showGameOverScreen() {
         document.getElementById("end-screen").classList.remove("d_none");
         document.getElementById("game-over-content").classList.remove("d_none");
         document.getElementById("you-win-content").classList.add("d_none");
@@ -300,7 +341,10 @@ class World {
         hideMobileControls();
         stopGameSound();
         youWin();
+        this.showWinScreen();
+    }
 
+    showWinScreen() {
         document.getElementById("end-screen").classList.remove("d_none");
         document.getElementById("you-win-content").classList.remove("d_none");
         document.getElementById("game-over-content").classList.add("d_none");

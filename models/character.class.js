@@ -138,7 +138,9 @@ class Character extends MovableObject {
     }
 
     jump() {
-        super.jump();
+        this.speedY = 30;
+        this.jumpSound.currentTime = 0;
+        this.jumpSound.play();
         this.idleStartTime = new Date().getTime();
         this.stopSnore();
     }
@@ -147,18 +149,26 @@ class Character extends MovableObject {
         if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
         } else if (this.isDead()) {
-            this.playAnimation(this.IMAGES_DEAD);
-            if (!this.deathAnimationPlayed) {
-                this.deathAnimationPlayed = true;
-                setTimeout(() => {
-                    this.world.gameover();
-                }, 500);
-            }
+            this.playDeathAnimation();
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING)
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING)
         }
+    }
+
+    playDeathAnimation() {
+        this.playAnimation(this.IMAGES_DEAD);
+        if (!this.deathAnimationPlayed) {
+            this.triggerGameOver();
+        }
+    }
+
+    triggerGameOver() {
+        this.deathAnimationPlayed = true;
+        setTimeout(() => {
+            this.world.gameover();
+        }, 500);
     }
 
     idleCharacter() {
@@ -174,12 +184,6 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_LONG_IDLE);
             this.snore();
         }
-    }
-
-    jump() {
-        this.speedY = 30;
-        this.jumpSound.currentTime = 0;
-        this.jumpSound.play();
     }
 
     bounce() {

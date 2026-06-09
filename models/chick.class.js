@@ -23,17 +23,27 @@ class Chick extends MovableObject {
 
     animate() {
         setStoppableInterval(() => {
-            if (!this.chickenDead()) {
-                this.moveLeft();
-                this.playAnimation(this.IMAGES_WALKING);
-            } else {
-                this.playAnimation(this.IMAGES_DEAD);
-                setTimeout(() => {
-                    this.removeFromWorld();
-                }, 500);
-
-            }
+            this.playChickAnimation();
         }, 1000 / 60);
     }
 
+    playChickAnimation() {
+        if (!this.chickenDead()) {
+            this.walk();
+        } else {
+            this.playDeathAnimation();
+        }
+    }
+
+    walk() {
+        this.moveLeft();
+        this.playAnimation(this.IMAGES_WALKING);
+    }
+
+    playDeathAnimation() {
+        this.playAnimation(this.IMAGES_DEAD);
+        setTimeout(() => {
+            this.removeFromWorld();
+        }, 500);
+    }
 }

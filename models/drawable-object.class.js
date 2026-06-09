@@ -25,13 +25,19 @@ class DrawableObject {
     }
 
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Chick || this instanceof Coin || this instanceof Bottle || this instanceof Endboss) {
-            ctx.beginPath();
-            ctx.lineWidth = "3";
-            ctx.strokeStyle = "red";
-            ctx.rect(this.x, this.y, this.width, this.height);
-            ctx.stroke();
-        }
+        if (this.canDrawFrame()) this.drawDebugFrame(ctx);
+    }
+
+    canDrawFrame() {
+        return this instanceof Character || this instanceof Chicken || this instanceof Chick || this instanceof Coin || this instanceof Bottle || this instanceof Endboss;
+    }
+
+    drawDebugFrame(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = "3";
+        ctx.strokeStyle = "red";
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
     }
 
     setPercentage(percentage) {
@@ -41,18 +47,6 @@ class DrawableObject {
     }
 
     resolveImageIndex() {
-        if (this.percentage >= 100) {
-            return 5;
-        } else if (this.percentage >= 80) {
-            return 4;
-        } else if (this.percentage >= 60) {
-            return 3;
-        } else if (this.percentage >= 40) {
-            return 2;
-        } else if (this.percentage >= 20) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return Math.min(5, Math.floor(this.percentage / 20));
     }
 }

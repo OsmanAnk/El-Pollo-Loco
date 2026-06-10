@@ -44,7 +44,7 @@ class Endboss extends MovableObject {
     ]
     isAlerted = false;
     alertStartX = 4275;
-    walkStartX = 4500;
+    walkStartX = 4375;
 
 
     constructor(x) {

@@ -119,10 +119,9 @@ function toggleSound() {
  * @param {HTMLImageElement} sound - sound-Icon, das aktualisiert werden soll
  */
 function unmuteSound(sound) {
-    gameSound.muted = false;
-    startSound.muted = false;
-    sound.src = "assets/icons/lautstarke.png";
     isMuted = false;
+    applyGlobalMuteState();
+    updateSoundIcon();
     applyWorldMuteState();
     saveMutedState();
     if (!isGamePaused) {
@@ -136,10 +135,9 @@ function unmuteSound(sound) {
  * @param {HTMLImageElement} sound - sound-Icon, das aktualisiert werden soll
  */
 function muteSound(sound) {
-    gameSound.muted = true;
-    startSound.muted = true;
-    sound.src = "assets/icons/klang.png";
     isMuted = true;
+    applyGlobalMuteState();
+    updateSoundIcon();
     applyWorldMuteState();
     saveMutedState();
 }

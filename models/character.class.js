@@ -31,7 +31,6 @@ class Character extends MovableObject {
         "assets/img/2_character_pepe/5_dead/D-54.png",
         "assets/img/2_character_pepe/5_dead/D-55.png",
         "assets/img/2_character_pepe/5_dead/D-56.png",
-        "assets/img/2_character_pepe/5_dead/D-57.png",
     ]
 
     IMAGES_HURT = [
@@ -70,6 +69,7 @@ class Character extends MovableObject {
     bottle = 0;
     idleStartTime = new Date().getTime();
     deathAnimationPlayed = false;
+    deathAnimationIndex = 0;
 
     hurtSound = new Audio("audio/character_hurt.mp3");
     snoreSound = new Audio("audio/snore_sound.mp3");
@@ -101,7 +101,15 @@ class Character extends MovableObject {
         setStoppableInterval(() => this.longIdleCharacter(), 1000 / 5);
     }
 
+    shouldFall() {
+        return !this.isDead() && super.shouldFall();
+    }
+
     moveCharacter() {
+        if (this.isDead()) {
+            this.stopSnore();
+            return;
+        }
         if (this.canMoveRight())
             this.moveRight();
         if (this.canMoveLeft())
@@ -146,10 +154,10 @@ class Character extends MovableObject {
     }
 
     playCharacterAnimation() {
-        if (this.isHurt()) {
-            this.playAnimation(this.IMAGES_HURT);
-        } else if (this.isDead()) {
+        if (this.isDead()) {
             this.playDeathAnimation();
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT);
         } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMPING)
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -158,7 +166,18 @@ class Character extends MovableObject {
     }
 
     playDeathAnimation() {
-        this.playAnimation(this.IMAGES_DEAD);
+        if (this.deathAnimationIndex < this.IMAGES_DEAD.length) {
+            let path = this.IMAGES_DEAD[this.deathAnimationIndex];
+            this.img = this.imageCache[path];
+            this.deathAnimationIndex++;
+        } else {
+            this.showLastDeathFrame();
+        }
+    }
+
+    showLastDeathFrame() {
+        let lastDeathImage = this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1];
+        this.img = this.imageCache[lastDeathImage];
         if (!this.deathAnimationPlayed) {
             this.triggerGameOver();
         }

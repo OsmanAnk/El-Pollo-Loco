@@ -319,6 +319,7 @@ class World {
     gameover() {
         if (this.gameOverTriggered) return;
         this.gameOverTriggered = true;
+        activeBackgroundSound = "none";
         stopGame();
         hideMobileControls();
         stopGameSound();
@@ -335,6 +336,7 @@ class World {
     youWin() {
         if (this.youWinTriggered) return;
         this.youWinTriggered = true;
+        activeBackgroundSound = "none";
         stopGame();
         hideMobileControls();
         stopGameSound();

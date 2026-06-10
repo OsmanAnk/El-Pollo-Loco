@@ -1,6 +1,7 @@
 ﻿let intervalIDs = [];
 let isGamePaused = false;
 let isMuted = localStorage.getItem("isMuted") === "true";
+let activeBackgroundSound = "start";
 
 startSound = new Audio("audio/start_sound.mp3");
 startSound.loop = true;
@@ -33,6 +34,7 @@ function unlockAudioAfterFirstClick() {
  * zeigt die Spielsteuerung an, initialisiert die Leveldaten und wendet den aktuellen Stumm-Status an
  */
 function startGame() {
+    activeBackgroundSound = "game";
     stopStartSound();
     playGameSound();
     const startScreen = document.getElementById("start-screen");
@@ -53,6 +55,7 @@ function startGame() {
  * initialisiert Level und Spielwelt neu und startet die Spielmusik
  */
 function restartGame() {
+    activeBackgroundSound = "game";
     const gameOverScreen = document.getElementById("end-screen");
     gameOverScreen.classList.add("d_none");
     showHomeButton();
@@ -237,15 +240,25 @@ function showImprint() {
 function goToStartMenu() {
     const startScreen = document.getElementById("start-screen");
     const gameOverScreen = document.getElementById("end-screen");
-    stopGame();
-    resumeGame();
+    resetGameToStartMenuSound();
     hideHomeButton();
     hideMobileControls();
     gameOverScreen.classList.add("d_none");
     startScreen.style.display = "flex";
-    playStartSound();
+}
+
+/**
+ * setzt Spiel- und Soundzustand für das Startmenü zurück
+ */
+function resetGameToStartMenuSound() {
+    activeBackgroundSound = "start";
+    stopGame();
+    isGamePaused = false;
     stopGameSound();
-    world.character.stopSnore();
+    playStartSound();
+    if (world && world.character) {
+        world.character.stopSnore();
+    }
 }
 
 /**
@@ -274,9 +287,9 @@ function resumeBackgroundSound() {
     if (isMuted) {
         return;
     }
-    if (world) {
+    if (activeBackgroundSound === "game") {
         playGameSound();
-    } else {
+    } else if (activeBackgroundSound === "start") {
         playStartSound();
     }
 }

@@ -52,6 +52,15 @@ class MovableObject extends DrawableObject {
         );
     }
 
+    isCollidingWithCoin(coin) {
+        return (
+            this.x + this.width > coin.x &&
+            this.y + this.height > coin.y &&
+            this.x < coin.x + coin.width &&
+            this.y + 100 < coin.y + coin.height
+        );
+    }
+
     isCollidingWithObject(mo) {
         return (
             this.x + this.width > mo.x && //rechte Seite des Charakters mit linker Seite des Gegners

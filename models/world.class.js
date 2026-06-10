@@ -121,7 +121,7 @@ class World {
 
     checkCollisionsCoins() {
         this.level.coins.forEach((coins) => {
-            if (this.character.isColliding(coins)) this.collectCoin(coins);
+            if (this.character.isCollidingWithCoin(coins)) this.collectCoin(coins);
         });
     }
 
@@ -141,7 +141,7 @@ class World {
     coinSoundPlay() {
         this.coinSound.pause();
         this.coinSound.currentTime = 0;
-        this.coinSound.play();
+        this.coinSound.play().catch(() => { });
     }
 
     checkCollisionsBottles() {
@@ -165,7 +165,7 @@ class World {
     bottleCollectSoundPlay() {
         this.bottleCollectSound.pause();
         this.bottleCollectSound.currentTime = 0;
-        this.bottleCollectSound.play();
+        this.bottleCollectSound.play().catch(() => { });
     }
 
     checkCollisionsAboveEnemies() {
@@ -298,6 +298,7 @@ class World {
             this.flipImage(mo);
         }
         mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
 
         if (mo.otherDirection) {
             this.flipImageBack(mo);

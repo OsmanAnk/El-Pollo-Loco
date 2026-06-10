@@ -43,6 +43,8 @@ class Endboss extends MovableObject {
         "assets/img/4_enemie_boss_chicken/5_dead/G26.png",
     ]
     isAlerted = false;
+    alertStartX = 4400;
+    walkStartX = 4400;
 
 
     constructor(x) {
@@ -66,30 +68,38 @@ class Endboss extends MovableObject {
     }
 
     playEndbossAnimation() {
-        if (this.shouldPlayAlertAnimation()) {
-            this.playAlertAnimation();
-        } else if (this.isAttacking) {
+        if (this.isAttacking) {
             this.playAnimation(this.IMAGES_ATTACK);
         } else if (this.isHurt) {
             this.playHurtAnimation();
         } else if (this.endbossLife <= 0) {
             this.playDeadAnimation();
+        } else if (this.shouldStartWalking()) {
+            this.startWalking();
+        } else if (this.shouldPlayAlertAnimation()) {
+            this.playAlertAnimation();
         } else {
             this.walk();
         }
     }
 
     shouldPlayAlertAnimation() {
-        return this.world.character.x > 500 && this.world.character.x < 800 && this.isAlerted === false;
+        return this.world.character.x > this.alertStartX && !this.isAlerted;
+    }
+
+    shouldStartWalking() {
+        return this.world.character.x > this.walkStartX;
     }
 
     playAlertAnimation() {
+        this.speed = 0;
         this.playAnimation(this.IMAGES_ALERT);
-        this.speed = 1;
-        if (this.currentImage >= this.IMAGES_ALERT.length) {
-            this.isAlerted = true;
-            this.currentImage = 0;
-        }
+    }
+
+    startWalking() {
+        this.isAlerted = true;
+        this.speed = 4;
+        this.walk();
     }
 
     playHurtAnimation() {
@@ -105,6 +115,8 @@ class Endboss extends MovableObject {
     }
 
     walk() {
+        if (!this.isAlerted) return;
+
         this.moveLeft();
         this.playAnimation(this.IMAGES_WALKING);
     }

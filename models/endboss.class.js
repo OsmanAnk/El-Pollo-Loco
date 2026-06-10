@@ -43,8 +43,8 @@ class Endboss extends MovableObject {
         "assets/img/4_enemie_boss_chicken/5_dead/G26.png",
     ]
     isAlerted = false;
-    alertStartX = 4400;
-    walkStartX = 4400;
+    alertStartX = 4275;
+    walkStartX = 4500;
 
 
     constructor(x) {
@@ -84,7 +84,7 @@ class Endboss extends MovableObject {
     }
 
     shouldPlayAlertAnimation() {
-        return this.world.character.x > this.alertStartX && !this.isAlerted;
+        return this.world.character.x >= this.alertStartX && !this.isAlerted;
     }
 
     shouldStartWalking() {

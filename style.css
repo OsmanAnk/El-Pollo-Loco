@@ -281,7 +281,6 @@ p {
     height: 100vh;
     z-index: 2500;
     display: flex;
-    /* display: none; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -298,10 +297,6 @@ p {
     width: 720px;
     height: 480px;
     max-width: 90%;
-}
-
-.game-container:fullscreen .end-screen-wrapper {
-    box-shadow: none;
 }
 
 .end-screen-wrapper img {

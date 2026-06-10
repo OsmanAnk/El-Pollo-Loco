@@ -50,7 +50,7 @@ class Endboss extends MovableObject {
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING)
         this.loadImages(this.IMAGES_ALERT)
-        this.loadImages(this.IMAGES_ATTACK) //das fehlt noch
+        this.loadImages(this.IMAGES_ATTACK)
         this.loadImages(this.IMAGES_HURT)
         this.loadImages(this.IMAGES_DEAD)
 

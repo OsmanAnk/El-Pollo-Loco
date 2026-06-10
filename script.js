@@ -1,10 +1,10 @@
-let intervalIDs = [];
+﻿let intervalIDs = [];
 let isGamePaused = false;
 let isMuted = localStorage.getItem("isMuted") === "true";
 
 startSound = new Audio("audio/start_sound.mp3");
 startSound.loop = true;
-startSound.volume = 0.05;
+startSound.volume = 0.03;
 
 gameSound = new Audio("audio/ingame_sound.mp3");
 gameSound.loop = true;
@@ -16,10 +16,21 @@ loseSound.volume = 0.05;
 winSound = new Audio("audio/win_sound.mp3");
 winSound.volume = 0.1;
 
+document.addEventListener("click", unlockAudioAfterFirstClick, { once: true });
+
 /**
- * Startet eine neue Spielsitzung
- * Stoppt die Startmusik, spielt die Spielmusik ab, blendet den Startbildschirm aus,
- * zeigt die Spielsteuerung an, initialisiert die Leveldaten und wendet den aktuellen Stumm-Status an.
+ * erlaubt dem Browser nach der ersten Nutzerinteraktion das Abspielen von Audio
+ */
+function unlockAudioAfterFirstClick() {
+    if (!isMuted) {
+        resumeBackgroundSound();
+    }
+}
+
+/**
+ * startet eine neue Spielsitzung
+ * stoppt die Startmusik, spielt die Spielmusik ab, blendet den Startbildschirm aus,
+ * zeigt die Spielsteuerung an, initialisiert die Leveldaten und wendet den aktuellen Stumm-Status an
  */
 function startGame() {
     stopStartSound();
@@ -37,9 +48,9 @@ function startGame() {
 }
 
 /**
- * Startet das Spiel nach einem Game-Over neu.
- * Blendet den Endbildschirm aus, zeigt die Spielsteuerung an,
- * initialisiert Level und Spielwelt neu und startet die Spielmusik.
+ * startet das Spiel nach einem Game-Over neu
+ * blendet den Endbildschirm aus, zeigt die Spielsteuerung an,
+ * initialisiert Level und Spielwelt neu und startet die Spielmusik
  */
 function restartGame() {
     const gameOverScreen = document.getElementById("end-screen");
@@ -53,11 +64,11 @@ function restartGame() {
 }
 
 /**
- * Erstellt ein pausierbares Intervall und speichert dessen ID.
- * Die übergebene Funktion wird nur ausgeführt, wenn das Spiel nicht pausiert ist.
+ * erstellt ein pausierbares Intervall und speichert dessen ID
+ * die übergebene Funktion wird nur ausgeführt, wenn das Spiel nicht pausiert ist
  *
- * @param {Function} fn - Funktion, die im Intervall ausgeführt werden soll.
- * @param {number} time - Zeitabstand des Intervalls in Millisekunden.
+ * @param {Function} fn - funktion, die im Intervall ausgeführt werden soll
+ * @param {number} time - zeitabstand des Intervalls in Millisekunden
  */
 function setStoppableInterval(fn, time) {
     let intervalID = setInterval(() => {
@@ -69,8 +80,8 @@ function setStoppableInterval(fn, time) {
 }
 
 /**
- * Stoppt alle gespeicherten Spiel-Intervalle.
- * Leert danach die Liste der Intervall-IDs.
+ * stoppt alle gespeicherten Spiel-Intervalle
+ * leert danach die Liste der Intervall-IDs
  */
 function stopGame() {
     intervalIDs.forEach(clearInterval);
@@ -78,17 +89,17 @@ function stopGame() {
 }
 
 /**
- * Verhindert, dass ein Event an übergeordnete Elemente weitergegeben wird.
+ * verhindert, dass ein Event an übergeordnete Elemente weitergegeben wird
  *
- * @param {Event} event - Event, dessen Weitergabe gestoppt werden soll.
+ * @param {Event} event - event, dessen Weitergabe gestoppt werden soll
  */
 function eventBubbling(event) {
     event.stopPropagation();
 }
 
 /**
- * Schaltet den Spielsound ein oder aus.
- * Aktualisiert das Sound-Icon, den Stumm-Status der Welt und speichert die Einstellung.
+ * schaltet den Spielsound ein oder aus
+ * aktualisiert das Sound-Icon, den Stumm-Status der Welt und speichert die Einstellung
  */
 function toggleSound() {
     const sound = document.getElementById("sound-btn");
@@ -100,9 +111,9 @@ function toggleSound() {
 }
 
 /**
- * Schaltet den Spielsound ein und aktualisiert Icon, Weltstatus und Speicher.
+ * schaltet den Spielsound ein und aktualisiert Icon, Weltstatus und Speicher
  *
- * @param {HTMLImageElement} sound - Sound-Icon, das aktualisiert werden soll.
+ * @param {HTMLImageElement} sound - sound-Icon, das aktualisiert werden soll
  */
 function unmuteSound(sound) {
     gameSound.muted = false;
@@ -111,12 +122,15 @@ function unmuteSound(sound) {
     isMuted = false;
     applyWorldMuteState();
     saveMutedState();
+    if (!isGamePaused) {
+        resumeBackgroundSound();
+    }
 }
 
 /**
- * Schaltet den Spielsound aus und aktualisiert Icon, Weltstatus und Speicher.
+ * schaltet den Spielsound aus und aktualisiert Icon, Weltstatus und Speicher
  *
- * @param {HTMLImageElement} sound - Sound-Icon, das aktualisiert werden soll.
+ * @param {HTMLImageElement} sound - sound-Icon, das aktualisiert werden soll
  */
 function muteSound(sound) {
     gameSound.muted = true;
@@ -128,10 +142,10 @@ function muteSound(sound) {
 }
 
 /**
- * Schaltet den Vollbildmodus für ein Element ein oder aus.
- * Wenn keine Element-ID übergeben wird, wird der Spielcontainer verwendet.
+ * schaltet den Vollbildmodus für ein Element ein oder aus
+ * wenn keine Element-ID übergeben wird, wird der Spielcontainer verwendet
  *
- * @param {string} [elementId] - ID des Elements für den Vollbildmodus.
+ * @param {string} [elementId] - id des Elements für den Vollbildmodus
  */
 function toggleFullscreen(elementId) {
     if (elementId === undefined) {
@@ -145,9 +159,9 @@ function toggleFullscreen(elementId) {
 }
 
 /**
- * Wechselt zwischen Vollbildmodus und normaler Ansicht.
+ * wechselt zwischen Vollbildmodus und normaler Ansicht
  *
- * @param {HTMLElement} fullscreen - Element, das im Vollbildmodus angezeigt werden soll.
+ * @param {HTMLElement} fullscreen - element, das im Vollbildmodus angezeigt werden soll
  */
 function toggleFullscreenMode(fullscreen) {
     if (!document.fullscreenElement) {
@@ -158,10 +172,10 @@ function toggleFullscreenMode(fullscreen) {
 }
 
 /**
- * Aktiviert den Vollbildmodus für ein Element.
- * Nutzt je nach Browser die passende Vollbild-API.
+ * aktiviert den Vollbildmodus für ein Element
+ * nutzt je nach Browser die passende Vollbild-API
  *
- * @param {HTMLElement} element - Element, das im Vollbildmodus angezeigt werden soll.
+ * @param {HTMLElement} element - element, das im Vollbildmodus angezeigt werden soll
  */
 function enterFullscreen(element) {
     if (element.requestFullscreen) {
@@ -174,8 +188,8 @@ function enterFullscreen(element) {
 }
 
 /**
- * Beendet den aktuellen Vollbildmodus.
- * Nutzt je nach Browser die passende Vollbild-API.
+ * beendet den aktuellen Vollbildmodus
+ * nutzt je nach Browser die passende Vollbild-API
  */
 function exitFullscreen() {
     if (document.exitFullscreen) {
@@ -186,8 +200,8 @@ function exitFullscreen() {
 }
 
 /**
- * Zeigt den Bildschirm mit den Tastatursteuerungen an.
- * Pausiert dafür das laufende Spiel.
+ * zeigt den Bildschirm mit den Tastatursteuerungen an
+ * pausiert dafür das laufende Spiel
  */
 function showControls() {
     const keybindsRef = document.getElementById("keyboard-controls-screen");
@@ -196,8 +210,8 @@ function showControls() {
 }
 
 /**
- * Schließt geöffnete Modale für Steuerung oder Impressum.
- * Setzt das Spiel danach fort.
+ * schließt geöffnete Modale für Steuerung oder Impressum
+ * setzt das Spiel danach fort
  */
 function closeModal() {
     const keybindsRef = document.getElementById("keyboard-controls-screen");
@@ -208,7 +222,7 @@ function closeModal() {
 }
 
 /**
- * Zeigt den Impressum-Bildschirm an.
+ * zeigt den Impressum-Bildschirm an
  */
 function showImprint() {
     const imprintRef = document.getElementById("imprint-screen");
@@ -216,9 +230,9 @@ function showImprint() {
 }
 
 /**
- * Kehrt aus dem Spiel zum Startmenü zurück.
- * Stoppt Spielintervalle und Spielsound, blendet Spielsteuerung aus
- * und startet wieder die Startmusik.
+ * kehrt aus dem Spiel zum Startmenü zurück
+ * stoppt Spielintervalle und Spielsound, blendet Spielsteuerung aus
+ * und startet wieder die Startmusik
  */
 function goToStartMenu() {
     const startScreen = document.getElementById("start-screen");
@@ -235,8 +249,8 @@ function goToStartMenu() {
 }
 
 /**
- * Pausiert das Spiel.
- * Setzt den Pausenstatus und pausiert alle Sounds.
+ * pausiert das Spiel
+ * setzt den Pausenstatus und pausiert alle Sounds
  */
 function pauseGame() {
     isGamePaused = true;
@@ -244,8 +258,8 @@ function pauseGame() {
 }
 
 /**
- * Setzt das Spiel fort.
- * Hebt den Pausenstatus auf und startet den Hintergrundsound.
+ * setzt das Spiel fort
+ * hebt den Pausenstatus auf und startet den Hintergrundsound
  */
 function resumeGame() {
     isGamePaused = false;
@@ -253,8 +267,8 @@ function resumeGame() {
 }
 
 /**
- * Spielt den Hintergrundsound weiter.
- * Startet je nach aktuellem Zustand entweder Spielmusik oder Startmusik.
+ * spielt den Hintergrundsound weiter
+ * startet je nach aktuellem Zustand entweder Spielmusik oder Startmusik
  */
 function resumeBackgroundSound() {
     if (isMuted) {
@@ -268,7 +282,7 @@ function resumeBackgroundSound() {
 }
 
 /**
- * Zeigt den Home-Button an.
+ * zeigt den Home-Button an
  */
 function showHomeButton() {
     const homeButton = document.getElementById("home-btn");
@@ -276,7 +290,7 @@ function showHomeButton() {
 }
 
 /**
- * Blendet den Home-Button aus.
+ * blendet den Home-Button aus
  */
 function hideHomeButton() {
     const homeButton = document.getElementById("home-btn");
@@ -284,7 +298,7 @@ function hideHomeButton() {
 }
 
 /**
- * Zeigt die mobile Spielsteuerung an.
+ * zeigt die mobile Spielsteuerung an
  */
 function showmobileControls() {
     const mobileControls = document.getElementById("mobile-controls");
@@ -292,7 +306,7 @@ function showmobileControls() {
 }
 
 /**
- * Blendet die mobile Spielsteuerung aus.
+ * blendet die mobile Spielsteuerung aus
  */
 function hideMobileControls() {
     const mobileControls = document.getElementById("mobile-controls");
@@ -300,7 +314,7 @@ function hideMobileControls() {
 }
 
 /**
- * Deaktiviert das Kontextmenü auf Geräten mit Touch-Steuerung.
+ * deaktiviert das Kontextmenü auf Geräten mit Touch-Steuerung
  */
 function disableMobileContextMenu() {
     if (!window.matchMedia("(pointer: coarse)").matches) {
@@ -312,14 +326,17 @@ function disableMobileContextMenu() {
 }
 
 /**
- * Spielt die Startmusik ab.
+ * spielt die Startmusik ab
  */
 function playStartSound() {
-    playAudio(startSound);
+    if (isMuted) {
+        return;
+    }
+    startSound.play().catch(() => {});
 }
 
 /**
- * Stoppt die Startmusik und setzt sie an den Anfang zurück.
+ * stoppt die Startmusik und setzt sie an den Anfang zurück
  */
 function stopStartSound() {
     startSound.pause();
@@ -327,14 +344,17 @@ function stopStartSound() {
 }
 
 /**
- * Spielt die Spielmusik ab.
+ * spielt die Spielmusik ab
  */
 function playGameSound() {
-    playAudio(gameSound);
+    if (isMuted) {
+        return;
+    }
+    gameSound.play().catch(() => {});
 }
 
 /**
- * Stoppt die Spielmusik und setzt sie an den Anfang zurück.
+ * stoppt die Spielmusik und setzt sie an den Anfang zurück
  */
 function stopGameSound() {
     gameSound.pause();
@@ -342,22 +362,22 @@ function stopGameSound() {
 }
 
 /**
- * Spielt den Sound für eine Niederlage ab.
+ * spielt den Sound für eine Niederlage ab
  */
 function youLose() {
-    playAudio(loseSound);
+    loseSound.play();
 }
 
 /**
- * Spielt den Sound für einen Sieg ab.
+ * spielt den Sound für einen Sieg ab
  */
 function youWin() {
-    playAudio(winSound);
+    winSound.play();
 }
 
 /**
- * Pausiert alle globalen Sounds und alle Sounds der Spielwelt.
- * Stoppt zusätzlich das Schnarchen der Spielfigur.
+ * pausiert alle globalen Sounds und alle Sounds der Spielwelt
+ * stoppt zusätzlich das Schnarchen der Spielfigur
  */
 function pauseAllSounds() {
     gameSound.pause();
@@ -369,7 +389,7 @@ function pauseAllSounds() {
 }
 
 /**
- * Pausiert alle Sounds der Spielwelt.
+ * pausiert alle Sounds der Spielwelt
  */
 function pauseWorldSounds() {
     world.coinSound.pause();
@@ -382,15 +402,15 @@ function pauseWorldSounds() {
 }
 
 /**
- * Speichert den aktuellen Stumm-Status im lokalen Speicher.
+ * speichert den aktuellen Stumm-Status im lokalen Speicher
  */
 function saveMutedState() {
     localStorage.setItem("isMuted", isMuted);
 }
 
 /**
- * Lädt den gespeicherten Stumm-Status aus dem lokalen Speicher.
- * Aktualisiert alle globalen Sounds, die Spielwelt und das Sound-Icon.
+ * lädt den gespeicherten Stumm-Status aus dem lokalen Speicher
+ * aktualisiert alle globalen Sounds, die Spielwelt und das Sound-Icon
  */
 function loadMutedState() {
     const savedState = localStorage.getItem("isMuted");
@@ -401,7 +421,7 @@ function loadMutedState() {
 }
 
 /**
- * Wendet den aktuellen Stumm-Status auf die globalen Sounds an.
+ * wendet den aktuellen Stumm-Status auf die globalen Sounds an
  */
 function applyGlobalMuteState() {
     gameSound.muted = isMuted;
@@ -411,7 +431,7 @@ function applyGlobalMuteState() {
 }
 
 /**
- * Aktualisiert das Sound-Icon passend zum Stumm-Status.
+ * aktualisiert das Sound-Icon passend zum Stumm-Status
  */
 function updateSoundIcon() {
     const sound = document.getElementById("sound-btn");
@@ -423,8 +443,8 @@ function updateSoundIcon() {
 }
 
 /**
- * Wendet den aktuellen Stumm-Status auf alle Sounds der Spielwelt an.
- * Beendet die Funktion, wenn noch keine Spielwelt vorhanden ist.
+ * wendet den aktuellen Stumm-Status auf alle Sounds der Spielwelt an
+ * beendet die Funktion, wenn noch keine Spielwelt vorhanden ist
  */
 function applyWorldMuteState() {
     if (!world) return;
@@ -433,7 +453,7 @@ function applyWorldMuteState() {
 }
 
 /**
- * Wendet den aktuellen Stumm-Status auf die Welt-Sounds an.
+ * wendet den aktuellen Stumm-Status auf die Welt-Sounds an
  */
 function applyWorldMainMuteState() {
     world.coinSound.muted = isMuted;
@@ -446,25 +466,12 @@ function applyWorldMainMuteState() {
 }
 
 /**
- * Wendet den aktuellen Stumm-Status auf die Spielfigur-Sounds an.
+ * wendet den aktuellen Stumm-Status auf die Spielfigur-Sounds an
  */
 function applyCharacterMuteState() {
     if (world.character) {
         world.character.snoreSound.muted = isMuted;
         world.character.hurtSound.muted = isMuted;
         world.character.jumpSound.muted = isMuted;
-    }
-}
-
-/**
- * Spielt eine Audiodatei ab.
- * Fängt Browser-Fehler beim automatischen Abspielen ab.
- *
- * @param {HTMLAudioElement} audio - Audioelement, das abgespielt werden soll.
- */
-function playAudio(audio) {
-    let promise = audio.play();
-    if (promise !== undefined) {
-        promise.then(_ => { }).catch(error => { });
     }
 }

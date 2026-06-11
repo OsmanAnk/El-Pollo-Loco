@@ -18,6 +18,9 @@ class ThrowableObject extends MovableObject {
     isSplashed = false;
     groundY = 420;
 
+    /**
+     * creates a throwable bottle
+     */
     constructor(x, y, character) {
         super();
         this.loadImage("assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
@@ -31,6 +34,9 @@ class ThrowableObject extends MovableObject {
         this.throw();
     }
 
+    /**
+     * starts the throw movement
+     */
     throw() {
         this.setThrowDirection();
         this.speedY = 30;
@@ -39,6 +45,9 @@ class ThrowableObject extends MovableObject {
         this.startThrowAnimation();
     }
 
+    /**
+     * sets the horizontal throw direction
+     */
     setThrowDirection() {
         if (this.character.otherDirection) {
             this.speedX = -10;
@@ -47,6 +56,9 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * starts horizontal bottle movement
+     */
     startThrowMovement() {
         setStoppableInterval(() => {
             if (this.isSplashed) return;
@@ -54,6 +66,9 @@ class ThrowableObject extends MovableObject {
         }, 25);
     }
 
+    /**
+     * starts the bottle throw animation
+     */
     startThrowAnimation() {
         setStoppableInterval(() => {
             if (this.isSplashed) return;
@@ -64,6 +79,9 @@ class ThrowableObject extends MovableObject {
         }, 100);
     }
 
+    /**
+     * splashes the bottle on ground contact
+     */
     splashOnGround() {
         if (this.y + this.height >= this.groundY) {
             this.y = this.groundY - this.height;
@@ -71,19 +89,42 @@ class ThrowableObject extends MovableObject {
         }
     }
 
+    /**
+     * starts the splash state
+     */
     splash() {
         if (this.isSplashed) return;
 
         this.world.bottleSplashSoundPlay();
         this.isSplashed = true;
+        this.stopBottleMovement();
+        this.startSplashAnimation();
+        this.removeAfterSplash();
+    }
+
+    /**
+     * stops bottle movement
+     */
+    stopBottleMovement() {
         this.speedX = 0;
         this.speedY = 0;
         this.acceleration = 0;
         this.currentImage = 0;
+    }
+
+    /**
+     * starts splash animation frames
+     */
+    startSplashAnimation() {
         setStoppableInterval(() => {
             this.playAnimation(this.IMAGE_SPLASH);
         }, 75);
+    }
 
+    /**
+     * removes the bottle after splashing
+     */
+    removeAfterSplash() {
         setTimeout(() => {
             this.removeFromWorld();
         }, 500);

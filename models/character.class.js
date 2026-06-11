@@ -77,24 +77,42 @@ class Character extends MovableObject {
     jumpSound = new Audio("audio/character_jump.mp3");
 
 
+    /**
+     * creates the character
+     */
     constructor() {
         super().loadImage("assets/img/2_character_pepe/2_walk/W-21.png");
+        this.loadCharacterImages();
+        this.setupCharacterSounds();
+        this.applyGravity()
+        this.animate();
+    }
+
+    /**
+     * loads all character animation images
+     */
+    loadCharacterImages() {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT)
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
-        this.applyGravity()
+    }
 
+    /**
+     * sets character sound volumes
+     */
+    setupCharacterSounds() {
         this.hurtSound.volume = 0.05;
         this.snoreSound.volume = 0.05;
         this.snoreSound.loop = true;
         this.jumpSound.volume = 0.05;
-
-        this.animate();
     }
 
+    /**
+     * starts character intervals
+     */
     animate() {
         setStoppableInterval(() => this.moveCharacter(), 1000 / 60);
         setStoppableInterval(() => this.playCharacterAnimation(), 1000 / 10);
@@ -102,10 +120,16 @@ class Character extends MovableObject {
         setStoppableInterval(() => this.longIdleCharacter(), 1000 / 5);
     }
 
+    /**
+     * checks whether the character should fall
+     */
     shouldFall() {
         return !this.isDead() && super.shouldFall();
     }
 
+    /**
+     * handles character movement
+     */
     moveCharacter() {
         if (this.isDead()) {
             this.stopSnore();
@@ -120,10 +144,16 @@ class Character extends MovableObject {
         this.world.camera_x = -this.x + 100;
     }
 
+    /**
+     * checks whether the character can move right
+     */
     canMoveRight() {
         return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
     }
 
+    /**
+     * moves the character right
+     */
     moveRight() {
         super.moveRight();
         this.otherDirection = false;
@@ -131,10 +161,16 @@ class Character extends MovableObject {
         this.stopSnore();
     }
 
+    /**
+     * checks whether the character can move left
+     */
     canMoveLeft() {
         return this.world.keyboard.LEFT && this.x > 0;
     }
 
+    /**
+     * moves the character left
+     */
     moveLeft() {
         super.moveLeft();
         this.otherDirection = true;
@@ -142,10 +178,16 @@ class Character extends MovableObject {
         this.stopSnore();
     }
 
+    /**
+     * checks whether the character can jump
+     */
     canJump() {
         return this.world.keyboard.UP && !this.isAboveGround();
     }
 
+    /**
+     * starts a jump
+     */
     jump() {
         this.speedY = 30;
         this.jumpAnimationIndex = 0;
@@ -155,6 +197,9 @@ class Character extends MovableObject {
         this.stopSnore();
     }
 
+    /**
+     * plays the current character animation
+     */
     playCharacterAnimation() {
         if (this.isDead()) {
             this.playDeathAnimation();
@@ -167,6 +212,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * plays the jump animation once
+     */
     playJumpAnimation() {
         if (this.jumpAnimationIndex < this.IMAGES_JUMPING.length) {
             let path = this.IMAGES_JUMPING[this.jumpAnimationIndex];
@@ -178,6 +226,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * plays the death animation once
+     */
     playDeathAnimation() {
         if (this.deathAnimationIndex < this.IMAGES_DEAD.length) {
             let path = this.IMAGES_DEAD[this.deathAnimationIndex];
@@ -188,6 +239,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * shows the final death frame
+     */
     showLastDeathFrame() {
         let lastDeathImage = this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1];
         this.img = this.imageCache[lastDeathImage];
@@ -196,6 +250,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * triggers the game over sequence
+     */
     triggerGameOver() {
         this.deathAnimationPlayed = true;
         setTimeout(() => {
@@ -203,6 +260,9 @@ class Character extends MovableObject {
         }, 500);
     }
 
+    /**
+     * plays the short idle animation
+     */
     idleCharacter() {
         if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()
             && !this.isHurt() && !this.isDead() && new Date().getTime() - this.idleStartTime <= 15000) {
@@ -210,6 +270,9 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * plays the long idle animation
+     */
     longIdleCharacter() {
         if (!this.world.keyboard.RIGHT && !this.world.keyboard.LEFT && !this.isAboveGround()
             && !this.isHurt() && !this.isDead() && new Date().getTime() - this.idleStartTime > 15000) {
@@ -218,21 +281,33 @@ class Character extends MovableObject {
         }
     }
 
+    /**
+     * bounces the character upward
+     */
     bounce() {
         this.speedY = 20;
         this.jumpAnimationIndex = 0;
     }
 
+    /**
+     * hurts the character
+     */
     hit() {
         super.hit();
         this.hurtSound.play();
         this.stopSnore();
     }
 
+    /**
+     * plays the snoring sound
+     */
     snore() {
         this.snoreSound.play();
     }
 
+    /**
+     * stops the snoring sound
+     */
     stopSnore() {
         this.snoreSound.pause();
         this.snoreSound.currentTime = 0;

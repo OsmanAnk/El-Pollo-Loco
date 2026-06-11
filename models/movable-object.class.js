@@ -10,6 +10,9 @@ class MovableObject extends DrawableObject {
     lastHit = 0;
 
 
+    /**
+     * applies gravity to falling objects
+     */
     applyGravity() {
         setStoppableInterval(() => {
             if (this instanceof ThrowableObject && this.isSplashed) {
@@ -19,15 +22,24 @@ class MovableObject extends DrawableObject {
         }, 1000 / 30);
     }
 
+    /**
+     * checks whether the object should fall
+     */
     shouldFall() {
         return this.isAboveGround() || this.speedY > 0;
     }
 
+    /**
+     * moves the object vertically with gravity
+     */
     fall() {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
     }
 
+    /**
+     * checks whether the object is above ground
+     */
     isAboveGround() {
         if (this instanceof ThrowableObject) { //throwable fallen komplett runter
             return true;
@@ -36,6 +48,9 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * checks collision with another object
+     */
     isColliding(mo) {
         if (mo instanceof Endboss) {
             return this.isCollidingWithEndboss(mo);
@@ -43,6 +58,9 @@ class MovableObject extends DrawableObject {
         return this.isCollidingWithObject(mo);
     }
 
+    /**
+     * checks collision with the endboss hitbox
+     */
     isCollidingWithEndboss(mo) {
         return (
             this.x + this.width > mo.x + 100 &&
@@ -52,6 +70,9 @@ class MovableObject extends DrawableObject {
         );
     }
 
+    /**
+     * checks collision with a coin hitbox
+     */
     isCollidingWithCoin(coin) {
         return (
             this.x + this.width > coin.x &&
@@ -61,6 +82,9 @@ class MovableObject extends DrawableObject {
         );
     }
 
+    /**
+     * checks collision with a regular object
+     */
     isCollidingWithObject(mo) {
         return (
             this.x + this.width > mo.x && //rechte Seite des Charakters mit linker Seite des Gegners
@@ -70,10 +94,16 @@ class MovableObject extends DrawableObject {
         );
     }
 
+    /**
+     * checks whether the chicken is dead
+     */
     chickenDead() {
         return this.chickenLife == 0;
     }
 
+    /**
+     * reduces object energy after a hit
+     */
     hit() {
         this.energy -= 20;
         if (this.energy < 0) {
@@ -83,29 +113,47 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * checks whether the object is dead
+     */
     isDead() {
         return this.energy == 0;
     }
 
+    /**
+     * removes the object from the game world
+     */
     removeFromWorld() {
         this.world.level.enemies = this.world.level.enemies.filter((enemy) => enemy !== this);
         this.world.throwableObjects = this.world.throwableObjects.filter((obj) => obj !== this);
     }
 
+    /**
+     * checks whether the object is recently hurt
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Differenz in ms
         timepassed = timepassed / 1000; //Differenz in s
         return timepassed < 0.5;
     }
 
+    /**
+     * moves the object right
+     */
     moveRight() {
         this.x += this.speed;
     }
 
+    /**
+     * moves the object left
+     */
     moveLeft() {
         this.x -= this.speed;
     }
 
+    /**
+     * collects a coin or bottle
+     */
     collect(items) {
         if (items instanceof Coin) {
             this.coin += 1;
@@ -114,6 +162,9 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * plays a looping image animation
+     */
     playAnimation(images) {
 
         let i = this.currentImage % images.length;

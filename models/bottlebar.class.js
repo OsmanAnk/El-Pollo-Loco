@@ -11,6 +11,9 @@ class Bottlebar extends DrawableObject {
 
     percentage = 0;
 
+    /**
+     * creates the bottle statusbar
+     */
     constructor() {
         super();
         this.images = this.IMAGES_BOTTLE;

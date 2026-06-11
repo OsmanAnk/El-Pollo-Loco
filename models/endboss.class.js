@@ -47,6 +47,9 @@ class Endboss extends MovableObject {
     walkStartX = 4375;
 
 
+    /**
+     * creates the endboss
+     */
     constructor(x) {
         super();
         this.loadImage(this.IMAGES_WALKING[0]);
@@ -61,47 +64,63 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * starts the endboss animation interval
+     */
     animate() {
         setStoppableInterval(() => {
             this.playEndbossAnimation();
         }, 1000 / 6);
     }
 
+    /**
+     * plays the matching endboss animation
+     */
     playEndbossAnimation() {
         if (this.isAttacking) {
-            this.playAnimation(this.IMAGES_ATTACK);
-        } else if (this.isHurt) {
-            this.playHurtAnimation();
-        } else if (this.endbossLife <= 0) {
-            this.playDeadAnimation();
-        } else if (this.shouldStartWalking()) {
-            this.startWalking();
-        } else if (this.shouldPlayAlertAnimation()) {
-            this.playAlertAnimation();
-        } else {
-            this.walk();
+            return this.playAnimation(this.IMAGES_ATTACK);
         }
+        if (this.isHurt) return this.playHurtAnimation();
+        if (this.endbossLife <= 0) return this.playDeadAnimation();
+        if (this.shouldStartWalking()) return this.startWalking();
+        if (this.shouldPlayAlertAnimation()) return this.playAlertAnimation();
+        this.walk();
     }
 
+    /**
+     * checks whether the alert animation should start
+     */
     shouldPlayAlertAnimation() {
         return this.world.character.x >= this.alertStartX && !this.isAlerted;
     }
 
+    /**
+     * checks whether the boss should start walking
+     */
     shouldStartWalking() {
         return this.world.character.x > this.walkStartX;
     }
 
+    /**
+     * plays the alert animation
+     */
     playAlertAnimation() {
         this.speed = 0;
         this.playAnimation(this.IMAGES_ALERT);
     }
 
+    /**
+     * starts the boss movement
+     */
     startWalking() {
         this.isAlerted = true;
         this.speed = 20;
         this.walk();
     }
 
+    /**
+     * plays the hurt animation
+     */
     playHurtAnimation() {
         this.playAnimation(this.IMAGES_HURT);
         setTimeout(() => {
@@ -109,11 +128,17 @@ class Endboss extends MovableObject {
         }, 500);
     }
 
+    /**
+     * plays the dead animation
+     */
     playDeadAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
         this.world.youWin();
     }
 
+    /**
+     * moves and animates the boss
+     */
     walk() {
         if (!this.isAlerted) return;
 

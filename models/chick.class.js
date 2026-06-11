@@ -11,6 +11,9 @@ class Chick extends MovableObject {
         "assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png"
     ]
 
+    /**
+     * creates a small chicken enemy
+     */
     constructor(x) {
         super().loadImage("assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png")
         this.loadImages(this.IMAGES_WALKING)
@@ -21,12 +24,18 @@ class Chick extends MovableObject {
         this.animate();
     }
 
+    /**
+     * starts the chick animation interval
+     */
     animate() {
         setStoppableInterval(() => {
             this.playChickAnimation();
         }, 1000 / 60);
     }
 
+    /**
+     * plays walking or death animation
+     */
     playChickAnimation() {
         if (!this.chickenDead()) {
             this.walk();
@@ -35,11 +44,17 @@ class Chick extends MovableObject {
         }
     }
 
+    /**
+     * moves and animates the chick
+     */
     walk() {
         this.moveLeft();
         this.playAnimation(this.IMAGES_WALKING);
     }
 
+    /**
+     * plays the death animation
+     */
     playDeathAnimation() {
         this.playAnimation(this.IMAGES_DEAD);
         setTimeout(() => {

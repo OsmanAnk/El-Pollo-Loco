@@ -6,6 +6,9 @@ class Bottle extends MovableObject {
         "assets/img/6_salsa_bottle/2_salsa_bottle_on_ground.png",
     ]
 
+    /**
+     * creates a collectible bottle
+     */
     constructor(x) {
         super();
         this.loadImage(this.IMAGE[0]);
@@ -15,6 +18,9 @@ class Bottle extends MovableObject {
         this.animate();
     }
 
+    /**
+     * starts the bottle animation
+     */
     animate() {
         setStoppableInterval(() => {
             this.playAnimation(this.IMAGE);

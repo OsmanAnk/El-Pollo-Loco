@@ -5,6 +5,9 @@ class BackgroundObject extends MovableObject {
     IMAGES_BACKGROUND = [
 
     ]
+    /**
+     * creates a background object
+     */
     constructor(imagePath, x) {
         super().loadImage(imagePath)
         this.x = x;
@@ -14,6 +17,9 @@ class BackgroundObject extends MovableObject {
     }
 
 
+    /**
+     * moves the background with keyboard input
+     */
     animate() {
         setStoppableInterval(() => {
             if (this.world.keyboard.RIGHT) {

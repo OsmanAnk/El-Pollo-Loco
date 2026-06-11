@@ -11,6 +11,9 @@ class Coinbar extends DrawableObject {
 
     percentage = 0;
 
+    /**
+     * creates the coin statusbar
+     */
     constructor() {
         super();
         this.images = this.IMAGES_COIN;

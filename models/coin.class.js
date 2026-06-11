@@ -6,6 +6,9 @@ class Coin extends MovableObject {
         "assets/img/8_coin/coin_2.png",
     ]
 
+    /**
+     * creates a collectible coin
+     */
     constructor(x, y) {
         super();
         this.loadImage(this.IMAGE[0]);
@@ -16,6 +19,9 @@ class Coin extends MovableObject {
         this.animate();
     }
 
+    /**
+     * starts the coin animation
+     */
     animate() {
         setStoppableInterval(() => {
             this.playAnimation(this.IMAGE);

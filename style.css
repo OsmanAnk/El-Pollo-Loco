@@ -31,7 +31,6 @@ body {
     height: 100%;
     z-index: 20;
     display: flex;
-    /* display: none; */
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -265,12 +264,13 @@ p {
 
     background: beige;
     border-radius: 12px;
-    padding: 32px;
+    padding: 24px;
 
     display: flex;
     flex-direction: column;
 
     box-sizing: border-box;
+    letter-spacing: 0.5px;
 }
 
 .end-screen {

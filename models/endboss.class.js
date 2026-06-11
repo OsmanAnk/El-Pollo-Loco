@@ -98,7 +98,7 @@ class Endboss extends MovableObject {
 
     startWalking() {
         this.isAlerted = true;
-        this.speed = 4;
+        this.speed = 20;
         this.walk();
     }
 

@@ -70,6 +70,7 @@ class Character extends MovableObject {
     idleStartTime = new Date().getTime();
     deathAnimationPlayed = false;
     deathAnimationIndex = 0;
+    jumpAnimationIndex = 0;
 
     hurtSound = new Audio("audio/character_hurt.mp3");
     snoreSound = new Audio("audio/snore_sound.mp3");
@@ -95,8 +96,8 @@ class Character extends MovableObject {
     }
 
     animate() {
-        setStoppableInterval(() => this.moveCharacter(), 1000 / 60)
-        setStoppableInterval(() => this.playCharacterAnimation(), 1000 / 20);
+        setStoppableInterval(() => this.moveCharacter(), 1000 / 60);
+        setStoppableInterval(() => this.playCharacterAnimation(), 1000 / 10);
         setStoppableInterval(() => this.idleCharacter(), 1000 / 5);
         setStoppableInterval(() => this.longIdleCharacter(), 1000 / 5);
     }
@@ -147,6 +148,7 @@ class Character extends MovableObject {
 
     jump() {
         this.speedY = 30;
+        this.jumpAnimationIndex = 0;
         this.jumpSound.currentTime = 0;
         this.jumpSound.play();
         this.idleStartTime = new Date().getTime();
@@ -159,9 +161,20 @@ class Character extends MovableObject {
         } else if (this.isHurt()) {
             this.playAnimation(this.IMAGES_HURT);
         } else if (this.isAboveGround()) {
-            this.playAnimation(this.IMAGES_JUMPING)
+            this.playJumpAnimation();
         } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
             this.playAnimation(this.IMAGES_WALKING)
+        }
+    }
+
+    playJumpAnimation() {
+        if (this.jumpAnimationIndex < this.IMAGES_JUMPING.length) {
+            let path = this.IMAGES_JUMPING[this.jumpAnimationIndex];
+            this.img = this.imageCache[path];
+            this.jumpAnimationIndex++;
+        } else {
+            let lastJumpImage = this.IMAGES_JUMPING[this.IMAGES_JUMPING.length - 1];
+            this.img = this.imageCache[lastJumpImage];
         }
     }
 
@@ -207,6 +220,7 @@ class Character extends MovableObject {
 
     bounce() {
         this.speedY = 20;
+        this.jumpAnimationIndex = 0;
     }
 
     hit() {

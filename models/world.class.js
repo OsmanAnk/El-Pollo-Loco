@@ -12,6 +12,7 @@ class World {
     camera_x = 0;
     lastBottleThrow = 0;
     maxBottles = 5;
+    maxCoins = 5;
     bottleThrowCooldown = 500;
 
     coinSound = new Audio("audio/coin_collect.mp3");
@@ -133,8 +134,7 @@ class World {
     }
 
     updateCoinbar() {
-        let totalCoins = this.level.coins.length || 1;
-        let coinPercent = Math.round((this.character.coin / totalCoins) * 100);
+        let coinPercent = Math.min((this.character.coin / this.maxCoins) * 100, 100);
         this.coinbar.setPercentage(coinPercent);
     }
 
@@ -212,7 +212,7 @@ class World {
     }
 
     hitEndboss(enemy) {
-        enemy.endbossLife -= 20;
+        enemy.endbossLife -= 12.5;
         enemy.isHurt = true;
         this.endbossHurtSoundPlay();
     }

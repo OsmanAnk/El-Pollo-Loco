@@ -26,8 +26,6 @@ function initLevel1() {
             new Chick(3900),
             new Chick(4000),
             new Endboss(4800),
-            
-            // new Endboss(1000)
         ],
 
         [
@@ -115,15 +113,6 @@ function initLevel1() {
         ],
 
         [
-            // new Bottle(300),
-            // new Bottle(300),
-            // new Bottle(300),
-            // new Bottle(300),
-            // new Bottle(300),
-            // new Bottle(300),
-            // new Bottle(300),
-            // new Bottle(300),
-
             new Bottle(700),
             new Bottle(775),
             new Bottle(850),

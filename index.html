@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="style.css">
 
     <script src="script.js"></script>
+    <script src="sound.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/healthbar.class.js"></script>
     <script src="models/coinbar.class.js"></script>
@@ -55,11 +56,11 @@
                     <button ontouchstart="keyboard.RIGHT = true" ontouchend="keyboard.RIGHT = false">→</button>
                 </div>
                 <div class="mobile-right-side">
-                    <button ontouchstart="keyboard.UP = true" ontouchend="keyboard.UP = false">↑</button>
                     <button ontouchstart="keyboard.SPACE = true" ontouchend="keyboard.SPACE = false">
                         <img src="assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png" alt="throw bottle"
                             class="mobile-throw-btn">
                     </button>
+                    <button ontouchstart="keyboard.UP = true" ontouchend="keyboard.UP = false">↑</button>
                 </div>
             </div>
             <div class="start-screen" id="start-screen">
@@ -116,13 +117,13 @@
     <div id="imprint-screen" class="imprint-screen d_none">
         <div class="imprint-wrapper" onclick="event.stopPropagation()">
             <h2>Impressum</h2>
-                <p>Osman Annak<br />
-                    Leopoldstraße 45<br />
-                    14193 Berlin</p>
-                <h2>Kontakt</h2>
-                <p>Telefon: 017651648981<br />
-                    E-Mail: osman.annak@hotmail.de</p>
-                <button class="close-btn" onclick="closeModal()">Close</button>
+            <p>Osman Annak<br />
+                Leopoldstraße 45<br />
+                14193 Berlin</p>
+            <h2>Kontakt</h2>
+            <p>Telefon: 017651648981<br />
+                E-Mail: osman.annak@hotmail.de</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
 </body>

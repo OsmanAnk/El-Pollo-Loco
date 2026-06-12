@@ -293,22 +293,24 @@ p {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    width: 720px;
-    height: 480px;
-    max-width: 90%;
+    width: min(720px, 94vw);
+    height: auto;
+    max-height: 94vh;
 }
 
 .end-screen-wrapper img {
     width: 100%;
     height: auto;
+    max-height: 72vh;
+    object-fit: contain;
 }
 
 .end-screen-buttons {
-    margin-top: 20px;
+    margin-top: 12px;
     display: flex;
     justify-content: center;
     gap: 16px;
+    flex-wrap: wrap;
 }
 
 .restart-button,
@@ -360,6 +362,26 @@ canvas {
     h1 {
         display: none;
     }
+
+    .end-screen-wrapper {
+        width: min(620px, 92vw);
+        max-height: 96vh;
+    }
+
+    .end-screen-wrapper img {
+        max-height: 68vh;
+    }
+
+    .end-screen-buttons {
+        margin-top: 8px;
+        gap: 10px;
+    }
+
+    .restart-button,
+    .home-screen-button {
+        padding: 8px 22px;
+        font-size: 24px;
+    }
 }
 
 .game-container:fullscreen .start-screen-wrapper h1 {
@@ -380,15 +402,15 @@ canvas {
     display: none;
 }
 
-@media (max-width: 1023px) {
+@media (pointer: coarse) {
     .mobile-controls {
         position: absolute;
-        bottom: 16px;
+        bottom: 8px;
         left: 0;
         width: 100%;
         display: flex;
         justify-content: space-between;
-        padding: 0 24px;
+        padding: 0 18px;
         box-sizing: border-box;
         z-index: 5000;
         pointer-events: none;
@@ -396,15 +418,15 @@ canvas {
 
     .mobile-controls button {
         pointer-events: auto;
-        width: 64px;
-        height: 64px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
-        border: 3px solid #8b4a00;
-        background: #ffdd02;
+        border: 2px solid #8b4a00;
+        background: rgba(255, 221, 2, 0.85);
         color: #5c2e00;
-        font-size: 32px;
+        font-size: 28px;
         font-family: 'Zabars', sans-serif;
-        box-shadow: 0 4px 0 #b87900;
+        box-shadow: 0 3px 0 #b87900;
 
         display: flex;
         align-items: center;
@@ -417,27 +439,65 @@ canvas {
     }
 
     .mobile-throw-btn {
-        width: 60px;
-        height: 60px;
+        width: 48px;
+        height: 48px;
     }
 
     .mobile-left-side {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 100px;
+        gap: 64px;
     }
 
     .mobile-right-side {
         display: flex;
-        flex-direction: column;
-        gap: 16px;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
     }
 
     .game-container:fullscreen .start-button {
         top: 40px;
         padding: 8px 28px;
         font-size: 56px;
+    }
+}
+
+@media (pointer: coarse) and (max-height: 420px) {
+    .mobile-controls {
+        bottom: 10px;
+        padding: 0 17px;
+    }
+
+    .mobile-controls button {
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+    }
+
+    .mobile-throw-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mobile-left-side {
+        gap: 130px;
+    }
+
+    .mobile-right-side {
+        gap: 8px;
+    }
+}
+
+@media (pointer: coarse) and (min-width: 900px) and (min-height: 600px) {
+    .mobile-controls {
+        position: fixed;
+        bottom: 24px;
+        left: 0;
+        width: 100vw;
+        transform: none;
+        padding: 30px 64px;
     }
 }
 

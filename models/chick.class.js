@@ -29,8 +29,12 @@ class Chick extends MovableObject {
      */
     animate() {
         setStoppableInterval(() => {
-            this.playChickAnimation();
+            if (!this.chickenDead()) this.moveLeft();
         }, 1000 / 60);
+
+        setStoppableInterval(() => {
+            this.playChickAnimation();
+        }, 1000 / 10);
     }
 
     /**
@@ -38,7 +42,7 @@ class Chick extends MovableObject {
      */
     playChickAnimation() {
         if (!this.chickenDead()) {
-            this.walk();
+            this.playAnimation(this.IMAGES_WALKING);
         } else {
             this.playDeathAnimation();
         }

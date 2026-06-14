@@ -111,6 +111,7 @@ class WorldCollisionHandler {
      * checks whether the character jumps on an enemy
      */
     isJumpingOnEnemy(enemy) {
+        if (enemy.chickenDead()) return false;
         let character = this.world.character;
         let isAboveEnemy = character.y + character.height - 30 < enemy.y;
         return character.isColliding(enemy) && character.speedY < 0 && isAboveEnemy;
@@ -167,7 +168,7 @@ class WorldCollisionHandler {
      * damages the endboss
      */
     hitEndboss(enemy) {
-        enemy.endbossLife -= 12.5;
+        enemy.endbossLife -= 10;
         enemy.isHurt = true;
         this.world.endbossHurtSoundPlay();
     }

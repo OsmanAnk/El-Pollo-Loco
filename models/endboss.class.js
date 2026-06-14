@@ -4,7 +4,7 @@ class Endboss extends MovableObject {
     y = 90;
 
     dashSpeed = 100;
-    walkSpeed = 20;
+    walkSpeed = 25;
     isDashing = false;
     dashCooldown = false;
     dashOvertakeDistance = 300;

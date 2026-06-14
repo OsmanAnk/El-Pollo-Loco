@@ -32,7 +32,7 @@ class WorldCollisionHandler {
     isCharacterHitByEnemy(enemy) {
         let character = this.world.character;
         let isAboveEnemy = character.y + character.height - 30 < enemy.y;
-        return character.isColliding(enemy) && !character.isHurt() && !isAboveEnemy;
+        return character.isCollidingWithEnemy(enemy) && !character.isHurt() && !isAboveEnemy;
     }
 
     /**
@@ -52,7 +52,7 @@ class WorldCollisionHandler {
      */
     checkCollisionsCoins() {
         this.world.level.coins.forEach((coins) => {
-            if (this.world.character.isCollidingWithCoin(coins)) this.collectCoin(coins);
+            if (this.world.character.isCollidingWithObject(coins)) this.collectCoin(coins);
         });
     }
 
@@ -71,7 +71,7 @@ class WorldCollisionHandler {
      */
     checkCollisionsBottles() {
         this.world.level.bottles.forEach((bottle) => {
-            if (this.world.character.isColliding(bottle) && !this.maxBottlesReached())
+            if (this.world.character.isCollidingWithObject(bottle) && !this.maxBottlesReached())
                 this.collectBottle(bottle);
         });
     }
@@ -114,7 +114,7 @@ class WorldCollisionHandler {
         if (enemy.chickenDead()) return false;
         let character = this.world.character;
         let isAboveEnemy = character.y + character.height - 30 < enemy.y;
-        return character.isColliding(enemy) && character.speedY < 0 && isAboveEnemy;
+        return character.isCollidingWithEnemy(enemy) && character.speedY < 0 && isAboveEnemy;
     }
 
     /**
@@ -140,7 +140,7 @@ class WorldCollisionHandler {
      * checks whether a bottle hits an enemy
      */
     isBottleHitEnemy(bottle, enemy) {
-        return bottle.isColliding(enemy) && !bottle.isSplashed;
+        return bottle.isCollidingWithEnemy(enemy) && !bottle.isSplashed;
     }
 
     /**

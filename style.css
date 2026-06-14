@@ -529,8 +529,8 @@ canvas {
 }
 
 .mobile-controls,
-mobile-controls button,
-mobile-controls img {
+.mobile-controls button,
+.mobile-controls img {
     user-select: none;
     -webkit-user-select: none;
     -webkit-touch-callout: none;

@@ -56,9 +56,6 @@ class MovableObject extends DrawableObject {
      * checks collision with another object
      */
     isColliding(mo) {
-        if (mo instanceof Endboss) {
-            return this.isCollidingWithEndboss(mo);
-        }
         return this.isCollidingWithObject(mo);
     }
 
@@ -75,14 +72,17 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * checks collision with a coin hitbox
+     * checks collision with an enemy hitbox
      */
-    isCollidingWithCoin(coin) {
+    isCollidingWithEnemy(enemy) {
+        if (enemy instanceof Endboss) {
+            return this.isCollidingWithEndboss(enemy);
+        }
         return (
-            this.x + this.width > coin.x &&
-            this.y + this.height > coin.y &&
-            this.x < coin.x + coin.width &&
-            this.y + 100 < coin.y + coin.height
+            this.x + this.width - 20 > enemy.x &&
+            this.y + this.height > enemy.y + 10 &&
+            this.x + 20 < enemy.x + enemy.width &&
+            this.y + 80 < enemy.y + enemy.height
         );
     }
 
@@ -91,10 +91,10 @@ class MovableObject extends DrawableObject {
      */
     isCollidingWithObject(mo) {
         return (
-            this.x + this.width > mo.x && //rechte Seite des Charakters mit linker Seite des Gegners
-            this.y + this.height > mo.y && //untere Seite des Charakters mit oberer Seite des Gegners
-            this.x < mo.x + mo.width && //linke Seite des Charakters mit rechter Seite des Gegners
-            this.y < mo.y + mo.height //obere Seite des Charakters mit unterer Seite des Gegners
+            this.x + this.width > mo.x + 50 && //rechte Seite des Charakters mit linker Seite des Gegners
+            this.y + this.height > mo.y + 50 && //untere Seite des Charakters mit oberer Seite des Gegners
+            this.x < mo.x + mo.width - 50 && //linke Seite des Charakters mit rechter Seite des Gegners
+            this.y < mo.y + mo.height - 50 //obere Seite des Charakters mit unterer Seite des Gegners
         );
     }
 

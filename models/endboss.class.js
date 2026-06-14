@@ -2,6 +2,13 @@ class Endboss extends MovableObject {
     height = 360;
     width = 360;
     y = 90;
+
+    dashSpeed = 100;
+    walkSpeed = 20;
+    isDashing = false;
+    dashCooldown = false;
+    dashOvertakeDistance = 300;
+
     IMAGES_WALKING = [
         "assets/img/4_enemie_boss_chicken/1_walk/G1.png",
         "assets/img/4_enemie_boss_chicken/1_walk/G2.png",
@@ -77,9 +84,7 @@ class Endboss extends MovableObject {
      * plays the matching endboss animation
      */
     playEndbossAnimation() {
-        if (this.isAttacking) {
-            return this.playAnimation(this.IMAGES_ATTACK);
-        }
+        if (this.isAttacking) return this.playAnimation(this.IMAGES_ATTACK);
         if (this.isHurt) return this.playHurtAnimation();
         if (this.endbossLife <= 0) return this.playDeadAnimation();
         if (this.shouldStartWalking()) return this.startWalking();
@@ -98,7 +103,7 @@ class Endboss extends MovableObject {
      * checks whether the boss should start walking
      */
     shouldStartWalking() {
-        return this.world.character.x > this.walkStartX;
+        return this.world.character.x > this.walkStartX && !this.isAlerted;
     }
 
     /**
@@ -114,7 +119,7 @@ class Endboss extends MovableObject {
      */
     startWalking() {
         this.isAlerted = true;
-        this.speed = 20;
+        this.speed = this.walkSpeed;
         this.walk();
     }
 
@@ -141,8 +146,54 @@ class Endboss extends MovableObject {
      */
     walk() {
         if (!this.isAlerted) return;
+        if (this.isDashing) {
+            this.continueDash();
+            return;
+        }
+        if (this.shouldDash()) {
+            this.dash();
+            return;
+        }
+        this.walkleft();
+    }
 
+    walkleft() {
+        this.speed = this.walkSpeed;
+        this.otherDirection = false;
         this.moveLeft();
         this.playAnimation(this.IMAGES_WALKING);
+    }
+
+    shouldDash() {
+        return this.world.character.x > this.x + this.width && !this.dashCooldown;
+    }
+
+    dash() {
+        this.isDashing = true;
+        this.dashCooldown = true;
+        this.otherDirection = true;
+        this.speed = this.dashSpeed;
+    }
+
+    continueDash() {
+        this.moveRight();
+        this.playAnimation(this.IMAGES_ATTACK);
+
+        if (this.overtakenCharacter()) {
+            this.stopDash();
+        }
+    }
+
+    overtakenCharacter() {
+        return this.x > this.world.character.x + this.dashOvertakeDistance;
+    }
+
+    stopDash() {
+        this.isDashing = false;
+        this.speed = this.walkSpeed;
+        this.otherDirection = false;
+        setTimeout(() => {
+            this.dashCooldown = false;
+        }, 2000);
     }
 }

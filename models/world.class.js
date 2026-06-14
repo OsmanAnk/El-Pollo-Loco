@@ -10,6 +10,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    collisionHandler;
     lastBottleThrow = 0;
     maxBottles = 5;
     maxCoins = 5;
@@ -30,6 +31,7 @@ class World {
         this.ctx = canvas.getContext("2d");
         this.canvas = canvas;
         this.keyboard = keyboard
+        this.collisionHandler = new WorldCollisionHandler(this);
         this.setWorld();
         this.draw();
         this.run();
@@ -62,8 +64,8 @@ class World {
      */
     run() {
         setStoppableInterval(() => {
-            this.checkCollisions();
-            this.checkCollisionsThrowableObjects();
+            this.collisionHandler.checkCollisions();
+            this.collisionHandler.checkCollisionsThrowableObjects();
             this.checkThrowObjects();
         }, 1000 / 1000);
     }
@@ -124,64 +126,6 @@ class World {
     }
 
     /**
-     * checks all collisions
-     */
-    checkCollisions() {
-        this.checkCollisionsAboveEnemies();
-        this.checkCollisionsEnemy();
-        this.checkCollisionsCoins();
-        this.checkCollisionsBottles();
-    }
-
-    /**
-     * checks enemy collisions
-     */
-    checkCollisionsEnemy() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.isCharacterHitByEnemy(enemy)) this.handleCharacterEnemyHit(enemy);
-        });
-    }
-
-    /**
-     * checks whether an enemy hits the character
-     */
-    isCharacterHitByEnemy(enemy) {
-        let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y;
-        return this.character.isColliding(enemy) && !this.character.isHurt() && !isAboveEnemy;
-    }
-
-    /**
-     * handles an enemy hit on the character
-     */
-    handleCharacterEnemyHit(enemy) {
-        this.character.hit();
-        this.healthbar.setPercentage(this.character.energy);
-        enemy.isAttacking = true;
-        setTimeout(() => {
-            enemy.isAttacking = false;
-        }, 1000);
-    }
-
-    /**
-     * checks coin collisions
-     */
-    checkCollisionsCoins() {
-        this.level.coins.forEach((coins) => {
-            if (this.character.isCollidingWithCoin(coins)) this.collectCoin(coins);
-        });
-    }
-
-    /**
-     * collects a coin
-     */
-    collectCoin(coins) {
-        this.coinSoundPlay();
-        this.character.collect(coins);
-        this.updateCoinbar();
-        this.hideCollectedObject(coins);
-    }
-
-    /**
      * updates the coin statusbar
      */
     updateCoinbar() {
@@ -199,128 +143,12 @@ class World {
     }
 
     /**
-     * checks bottle collisions
-     */
-    checkCollisionsBottles() {
-        this.level.bottles.forEach((bottle) => {
-            if (this.character.isColliding(bottle)) this.collectBottle(bottle);
-        });
-    }
-
-    /**
-     * collects a bottle
-     */
-    collectBottle(bottle) {
-        this.bottleCollectSoundPlay();
-        this.character.collect(bottle);
-        this.updateBottlebar();
-        this.hideCollectedObject(bottle);
-    }
-
-    /**
-     * moves a collected object away
-     */
-    hideCollectedObject(object) {
-        if (object.x > 4000) object.x = 10000;
-        object.y = 10000;
-    }
-
-    /**
      * plays the bottle collect sound
      */
     bottleCollectSoundPlay() {
         this.bottleCollectSound.pause();
         this.bottleCollectSound.currentTime = 0;
         this.bottleCollectSound.play().catch(() => { });
-    }
-
-    /**
-     * checks jump collisions with enemies
-     */
-    checkCollisionsAboveEnemies() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.isJumpingOnEnemy(enemy)) this.handleJumpOnEnemy(enemy);
-        });
-    }
-
-    /**
-     * checks whether the character jumps on an enemy
-     */
-    isJumpingOnEnemy(enemy) {
-        let isAboveEnemy = this.character.y + this.character.height - 30 < enemy.y;
-        return this.character.isColliding(enemy) && this.character.speedY < 0 && isAboveEnemy;
-    }
-
-    /**
-     * handles jumping on an enemy
-     */
-    handleJumpOnEnemy(enemy) {
-        this.hitEnemy(enemy);
-        this.character.bounce();
-    }
-
-    /**
-     * checks throwable object collisions
-     */
-    checkCollisionsThrowableObjects() {
-        this.throwableObjects.forEach((bottle) => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.isBottleHitEnemy(bottle, enemy)) this.handleBottleHitEnemy(bottle, enemy);
-            });
-        });
-    }
-
-    /**
-     * checks whether a bottle hits an enemy
-     */
-    isBottleHitEnemy(bottle, enemy) {
-        return bottle.isColliding(enemy) && !bottle.isSplashed;
-    }
-
-    /**
-     * handles a bottle hit on an enemy
-     */
-    handleBottleHitEnemy(bottle, enemy) {
-        bottle.splash();
-        this.hitEnemy(enemy);
-    }
-
-    /**
-     * applies damage to an enemy
-     */
-    hitEnemy(enemy) {
-        if (enemy instanceof Endboss) {
-            this.hitEndboss(enemy);
-        } else if (enemy instanceof Chicken) {
-            this.hitChicken(enemy);
-        } else if (enemy instanceof Chick) {
-            this.hitChick(enemy);
-        }
-    }
-
-    /**
-     * damages the endboss
-     */
-    hitEndboss(enemy) {
-        enemy.endbossLife -= 12.5;
-        enemy.isHurt = true;
-        this.endbossHurtSoundPlay();
-    }
-
-    /**
-     * kills a chicken
-     */
-    hitChicken(enemy) {
-        enemy.chickenLife = 0;
-        this.chickenHurtSoundPlay();
-    }
-
-    /**
-     * kills a chick
-     */
-    hitChick(enemy) {
-        enemy.chickenLife = 0;
-        this.chickHurtSoundPlay();
     }
 
     /**

@@ -35,6 +35,10 @@ class MovableObject extends DrawableObject {
     fall() {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
+        if (!(this instanceof ThrowableObject) && this.y > 150) {
+            this.y = 150;
+            this.speedY = 0;
+        }
     }
 
     /**

@@ -7,24 +7,24 @@ function initLevel1() {
 
     level1 = new Level(
         [
-            new Chicken(1300),
-            new Chicken(1400),
-            new Chicken(1500),
-            new Chicken(3000),
-            new Chicken(3100),
-            new Chicken(3200),
-            new Chicken(4200),
-            new Chicken(4300),
-            new Chicken(4400),
-            new Chick(500),
-            new Chick(600),
-            new Chick(700),
-            new Chick(2200),
-            new Chick(2300),
-            new Chick(2400),
-            new Chick(3800),
-            new Chick(3900),
-            new Chick(4000),
+            // new Chicken(1300),
+            // new Chicken(1400),
+            // new Chicken(1500),
+            // new Chicken(3000),
+            // new Chicken(3100),
+            // new Chicken(3200),
+            // new Chicken(4200),
+            // new Chicken(4300),
+            // new Chicken(4400),
+            // new Chick(500),
+            // new Chick(600),
+            // new Chick(700),
+            // new Chick(2200),
+            // new Chick(2300),
+            // new Chick(2400),
+            // new Chick(3800),
+            // new Chick(3900),
+            // new Chick(4000),
             new Endboss(4800),
         ],
 
@@ -83,33 +83,12 @@ function initLevel1() {
         ],
 
         [
-            new Coin(300, 320),
             new Coin(400, 320),
-            new Coin(500, 320),
-
-            new Coin(1000, 80),
             new Coin(1100, 80),
-            new Coin(1200, 80),
-
-            new Coin(1700, 320),
             new Coin(1800, 320),
-            new Coin(1900, 320),
-
-            new Coin(2500, 80),
             new Coin(2600, 80),
-            new Coin(2700, 80),
-
-            new Coin(3300, 320),
             new Coin(3400, 320),
-            new Coin(3500, 320),
 
-            new Coin(4000, 80),
-            new Coin(4100, 80),
-            new Coin(4200, 80),
-
-            new Coin(4500, 320),
-            new Coin(4600, 320),
-            new Coin(4700, 320),
         ],
 
         [

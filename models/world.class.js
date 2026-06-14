@@ -196,6 +196,11 @@ class World {
         this.drawMovableObjects();
         this.ctx.translate(-this.camera_x, 0);
         this.drawFixedObjects();
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
+        this.addToMap(this.character);
+        this.ctx.translate(-this.camera_x, 0);
         this.requestNextFrame();
     }
 
@@ -214,9 +219,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.throwableObjects);
-        this.addObjectsToMap(this.level.coins);
-        this.addObjectsToMap(this.level.bottles);
-        this.addToMap(this.character);
+
     }
 
     /**

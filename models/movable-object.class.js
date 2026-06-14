@@ -91,10 +91,10 @@ class MovableObject extends DrawableObject {
      */
     isCollidingWithObject(mo) {
         return (
-            this.x + this.width > mo.x + 50 && //rechte Seite des Charakters mit linker Seite des Gegners
-            this.y + this.height > mo.y + 50 && //untere Seite des Charakters mit oberer Seite des Gegners
-            this.x < mo.x + mo.width - 50 && //linke Seite des Charakters mit rechter Seite des Gegners
-            this.y < mo.y + mo.height - 50 //obere Seite des Charakters mit unterer Seite des Gegners
+            this.x + this.width > mo.x + 50 && //rechte Seite des Charakters mit linker Seite des Objekts
+            this.y + this.height > mo.y + 50 && //untere Seite des Charakters mit oberer Seite des Objekts
+            this.x < mo.x + mo.width - 50 && //linke Seite des Charakters mit rechter Seite des Objekts
+            this.y < mo.y + mo.height - 150 //obere Seite des Charakters mit unterer Seite des Objekts
         );
     }
 

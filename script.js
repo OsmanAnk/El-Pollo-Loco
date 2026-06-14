@@ -237,13 +237,11 @@ function hideMobileControls() {
 }
 
 /**
- * disables the context menu on touch devices
+ * disables the context menu inside the game area
  */
 function disableMobileContextMenu() {
-    if (!window.matchMedia("(pointer: coarse)").matches) {
-        return;
-    }
-    document.addEventListener("contextmenu", (event) => {
+    const gameContainer = document.getElementById("game-container");
+    gameContainer.addEventListener("contextmenu", (event) => {
         event.preventDefault();
     });
 }
